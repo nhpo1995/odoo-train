@@ -50,7 +50,7 @@
 
 | Phase | Ngày | Trạng thái | Điểm TB |
 |-------|------|------------|---------|
-| 1. ORM Foundation | Day 1-5 | ✅ DONE | 8.9/10 |
+| 1. ORM Foundation | Day 1-5 | ✅ DONE | 8.8/10 |
 | 2. Business Logic | Day 6-10 | ⏳ (2/5) | 8.75/10 |
 | 3. Security | Day 11-13 | ⬜ | _/10 |
 | 3b. Subtasks | Day 14 | ⬜ | _/10 |
@@ -70,10 +70,16 @@
 **Chi tiết Phase 2:**
 - Day 6: 9.0/10 ✅ (+ Bonus: Deadlock, Recursion)
 - Day 7: 8.5/10 ✅ (Computed fields, inverse, search, read_group)
+- Day 8: _/10 ⏳ (pending eval)
 
 ---
 
 # 📅 PHASE 1: ORM FOUNDATION (Day 1-5)
+
+### 🛠️ Debug checklist (Phase 1)
+- [ ] Reproduce in `odoo shell` with the same user/context
+- [ ] Log `self.ids`, `self._context`, `self.env.user` in ORM methods
+- [ ] Compare `search()` vs `filtered()` outputs and query counts
 
 ---
 
@@ -271,17 +277,21 @@ Tạo đầy đủ UI cho task_management: list view, search filters, menu, + Ka
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Đọc source (2h) | _ | |
-| Viết code (2h) | _ | |
-| Shell/Debug (2h) | _ | |
-| Tổng kết (1h) | _ | |
-| **TỔNG NGÀY 4** | **_/10** | |
+| Đọc source (2h) | 8 | Read res_partner, project views |
+| Lý thuyết (2h) | 9 | 12 concepts covered |
+| Thực hành (2h) | 8 | 5 exercises completed |
+| Kiểm tra (1h) | 9 | 8 questions |
+| **TỔNG NGÀY 4** | **8.5/10** | _(Estimated retrospectively)_ |
 
 ### 📌 Ghi chú AI
-> _(AI sẽ điền sau khi hoàn thành)_
+> - Tree decorations với conditions
+> - Search filters + group by
+> - Kanban QWeb basic cards
+> - Complete UI workflow
 
 ### ⚠️ Lưu ý cho Day 5
-> _(AI sẽ điền)_
+> - Binary fields, image upload
+> - StatusBar widget
 
 ---
 
@@ -338,6 +348,11 @@ Hiểu Odoo Field là descriptors, các loại field phổ biến, + **Binary im
 ---
 
 # 📅 PHASE 2: BUSINESS LOGIC (Day 6-10)
+
+### 🛠️ Debug checklist (Phase 2)
+- [ ] Log `vals` before/after `create()`/`write()` and compare with UI inputs
+- [ ] Use `--log-level=debug_sql` for slow domains and N+1 detection
+- [ ] Validate x2many commands with `mapped()` and `exists()`
 
 ---
 
@@ -574,10 +589,15 @@ Tạo computed fields cho `task.task` và `task.project` - tự động tính to
 
 ---
 
-## Day 9: @api.onchange + Wizards (task_management) + 🔄 INTEGRATION TEST 1
+## Day 9: @api.onchange + Wizards (task_management)
 
 ### 🎯 Mục đích chủ đạo
 Phân biệt onchange (UI-only) vs computed (data-driven) + **Tạo Wizard đầu tiên**.
+
+### 🧭 Scope split
+- **Core (must)**: @api.onchange + Wizard bulk update + context active_ids
+- **Advanced (required)**: Smoke test nhanh; full integration test chuyển về Day 20
+- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
 
 ### 📚 Đề mục cần học
 - [ ] @api.onchange decorator
@@ -604,13 +624,14 @@ Phân biệt onchange (UI-only) vs computed (data-driven) + **Tạo Wizard đầ
   - [ ] Action với `target='new'` và `binding_model_id`
 - [ ] **Test Wizard:** Select nhiều tasks → Action → Wizard → Apply
 
-### 🔄 INTEGRATION TEST 1 (End of Phase 2)
-**Test tất cả features đã build:**
+### 📦 Output artifacts
+- Wizard model + view + action (binding)
+- Onchange logic trong task/task.project
+- Ghi chú test: UI-only behavior vs stored data
+### 🧪 Smoke test (15-20 phút)
 - [ ] Create Project → Create Tasks → Assign tags
-- [ ] Change state → See computed fields update
-- [ ] Test constraints → Violate và check error
 - [ ] Test onchange trên UI
-- [ ] **Test Wizard bulk action** ✅ NEW
+- [ ] Test Wizard bulk action
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -651,12 +672,20 @@ Phân biệt onchange (UI-only) vs computed (data-driven) + **Tạo Wizard đầ
 ### 🎯 Mục đích chủ đạo
 Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report đầu tiên**.
 
+### 🧭 Scope split
+- **Core (must)**: Context + Domain + PDF Report
+- **Advanced (required)**: Calendar view + frontend assets (CSS/JS/QWeb)
+- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
+
 ### 📚 Đề mục cần học
 - [ ] `self.env.context` - dictionary truyền suốt request
 - [ ] `with_context()` - thay đổi context
 - [ ] Domain syntax: `[('field', 'operator', 'value')]`
 - [ ] Domain operators: =, !=, in, not in, like, ilike, >, <
 - [ ] **QWeb Template Engine** - t-foreach, t-field, t-if
+- [ ] **QWeb template inheritance** - t-inherit, xpath, position
+- [ ] **Web assets bundles** - `web.assets_backend`, debug=assets
+- [ ] **JS/CSS basics** - `odoo.define`, `require`, module load order
 - [ ] **ir.actions.report** - PDF report action
 - [ ] **web.external_layout** - Header/Footer template
 - [ ] **sudo()** - Bypass security cho backend operations
@@ -670,6 +699,7 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
 | `odoo/osv/expression.py` | Domain parsing | Tìm `TERM_OPERATORS` |
 | `odoo/addons/base/reports/` | Report examples | Toàn bộ folder |
 | `odoo/models.py` | sudo, with_context | Tìm `def sudo`, `def with_context` |
+| `odoo/addons/web/__manifest__.py` | Assets bundles | `web.assets_backend` |
 
 ### ✅ Tiêu chí đạt
 - [ ] Debug được `self.env.context` trong method
@@ -682,10 +712,22 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
   - [ ] Sử dụng `web.external_layout` cho header/footer
 - [ ] **Report Action:** Nút "Print" trong Project form
 - [ ] **Test Report:** Generate PDF từ UI
+- [ ] **Calendar view** cho `task.task` theo `due_date`
+- [ ] **Frontend customization basics:**
+  - [ ] Thêm `static/src/css/task_kanban.css` và `static/src/js/task_debug.js`
+  - [ ] Register assets trong `__manifest__.py` → `web.assets_backend`
+  - [ ] Tham chiếu snippet assets trong `module_spec.md` để đảm bảo đúng format
+  - [ ] Add class `o_task_overdue` khi `is_overdue` trong Kanban template
+  - [ ] Verify bằng `?debug=assets` + console log từ JS
 - [ ] **Environment methods:**
   - [ ] Dùng `sudo()` để bypass security trong backend logic
   - [ ] Dùng `with_context()` để pass custom values
   - [ ] Hiểu khi nào cần `with_company()` (multi-company)
+
+### 📦 Output artifacts
+- Report XML + QWeb template
+- Calendar view XML cho task.task
+- Assets files + manifest assets block
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -723,6 +765,11 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
 
 # 📅 PHASE 3: SECURITY (Day 11-14)
 
+### 🛠️ Debug checklist (Phase 3)
+- [ ] Test with different users/groups; compare `sudo()` vs normal
+- [ ] Confirm ACL + record rules with dev mode access checks
+- [ ] Verify access errors in UI and server logs
+
 ---
 
 ## Day 11: ACL - Access Control List (task_management)
@@ -746,6 +793,10 @@ Hiểu cách Odoo kiểm soát ai được CRUD model nào cho `task_management`
 - [ ] Tạo được `security/ir.model.access.csv` cho `task_management` (task.task, task.project, task.tag)
 - [ ] Test user không quyền → xem AccessError
 - [ ] Hiểu ACL chỉ check ở model level, không check record
+
+### 📦 Output artifacts
+- `security/ir.model.access.csv` entries đầy đủ cho 3 models
+- Checklist test user quyền/không quyền
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -803,6 +854,10 @@ Tổ chức quyền cho `task_management` thành groups: Manager vs Member.
 - [ ] Manager: full CRUD trên tất cả models
 - [ ] Member: chỉ đọc và tạo tasks, không xóa
 - [ ] Hide delete button dựa trên groups
+
+### 📦 Output artifacts
+- `security.xml` groups + category
+- View attrs/groups cho nút delete
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -866,6 +921,10 @@ Kiểm soát user chỉ thấy/sửa records cụ thể (row-level security).
   - [ ] Thêm `company_id` field vào task.task
   - [ ] Tạo rule: `['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]`
   - [ ] Test: User company A không thấy tasks company B
+
+### 📦 Output artifacts
+- Record rules trong `security.xml`
+- `company_id` field + test notes multi-company
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -933,6 +992,10 @@ Thực hành debug các lỗi security thường gặp.
   - [ ] Verify: member không thấy tasks của member khác
   - [ ] Verify: manager thấy hết
 
+### 📦 Output artifacts
+- 3 bug scenarios + root-cause notes
+- Checklist test security (manager vs member)
+
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
@@ -969,12 +1032,22 @@ Thực hành debug các lỗi security thường gặp.
 
 # 📅 PHASE 4: MODULE READING (Day 15-17)
 
+### 🛠️ Debug checklist (Phase 4)
+- [ ] Trace overrides with `_logger` and check `super()` order
+- [ ] Inspect view inheritance results in developer mode
+- [ ] Compare context propagation across inherited methods
+
 ---
 
 ## Day 15: Read Existing Module
 
 ### 🎯 Mục đích chủ đạo
 Đọc và hiểu module có sẵn của Odoo (res_partner).
+
+### 🧭 Scope split
+- **Core (must)**: models + views + manifest; trace menu → action → view → model
+- **Advanced (required)**: scan security + addons phụ thuộc để thấy patterns
+- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
 
 ### 📚 Đề mục cần học
 - [ ] File structure của module chuẩn
@@ -993,6 +1066,10 @@ Thực hành debug các lỗi security thường gặp.
 - [ ] Vẽ được diagram: file nào liên quan đến res.partner
 - [ ] Hiểu flow data từ UI → model
 - [ ] Tìm được method nào được override
+
+### 📦 Output artifacts
+- Sơ đồ module (flow + file map)
+- Notes các method override quan trọng
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -1033,6 +1110,11 @@ Thực hành debug các lỗi security thường gặp.
 ### 🎯 Mục đích chủ đạo
 Master 3 loại inheritance trong Odoo + **Advanced Xpath patterns**.
 
+### 🧭 Scope split
+- **Core (must)**: _inherit (extend), view inheritance basic xpath
+- **Advanced (required)**: _inherits + advanced xpath patterns
+- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
+
 ### 📚 Đề mục cần học
 - [ ] `_inherit` (extend existing model, same _name)
 - [ ] `_inherit` + `_name` (prototype inheritance, new model)
@@ -1059,6 +1141,10 @@ Master 3 loại inheritance trong Odoo + **Advanced Xpath patterns**.
   - [ ] Dùng `<attribute name="class" add="mt-1" remove="mt-2"/>`
   - [ ] Dùng `invisible="context.get('key') and field == value"`
   - [ ] Dùng `invisible="parent.field_name"` trong subviews
+
+### 📦 Output artifacts
+- Model extension + view inheritance XML
+- Ghi chú xpath patterns đã dùng
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -1099,6 +1185,11 @@ Master 3 loại inheritance trong Odoo + **Advanced Xpath patterns**.
 ### 🎯 Mục đích chủ đạo
 Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
 
+### 🧭 Scope split
+- **Core (must)**: override create/write + debug 3 bugs phổ biến
+- **Advanced (required)**: debug thêm 2 bugs nâng cao + logging sâu
+- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
+
 ### 📚 Đề mục cần học
 - [ ] Override method pattern (super())
 - [ ] **super() positioning** - Gọi trước hay sau logic?
@@ -1129,6 +1220,10 @@ Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
   - [ ] Bug 5: Infinite loop do thiếu `sudo()` trong override
 - [ ] Đọc được traceback và tìm root cause
 - [ ] Giải thích được tại sao mỗi bug xảy ra
+
+### 📦 Output artifacts
+- Patch notes cho từng bug fix
+- Checklist debug steps (traceback → root cause → fix)
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -1166,6 +1261,11 @@ Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
 
 # 📅 PHASE 5: CONTROLLER (Day 18-19)
 
+### 🛠️ Debug checklist (Phase 5)
+- [ ] Log request params + headers; validate auth context
+- [ ] Test endpoints with curl/Postman for 200/403/404 paths
+- [ ] Inspect response payloads and error stacks
+
 ---
 
 ## Day 18: HTTP Controllers
@@ -1201,6 +1301,10 @@ Tạo API endpoints trong Odoo.
   - [ ] 403: Access denied
   - [ ] 500: Internal error
 - [ ] Xử lý được request parameters
+
+### 📦 Output artifacts
+- `controllers/main.py` với routes + error handling
+- Sample curl/Postman requests + expected responses
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -1265,6 +1369,10 @@ Tạo background jobs tự động + Kết nối Odoo với service bên ngoài.
 - [ ] Xử lý được timeout/error
 - [ ] Hiểu khi nào nên gọi sync vs async
 
+### 📦 Output artifacts
+- Cron method + cron record (data)
+- External API call helper + error handling notes
+
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
@@ -1301,6 +1409,11 @@ Tạo background jobs tự động + Kết nối Odoo với service bên ngoài.
 
 # 📅 PHASE 6: CONSOLIDATION (Day 20-21)
 
+### 🛠️ Debug checklist (Phase 6)
+- [ ] Run end-to-end scenarios and capture regressions
+- [ ] Verify performance with `--log-level=debug_sql`
+- [ ] Use `?debug=assets` to trace frontend assets if UI issues appear
+
 ---
 
 ## Day 20: Integration Testing + Production Checklist
@@ -1334,8 +1447,13 @@ Test toàn bộ task_management module end-to-end, chuẩn bị production-ready
   - [ ] Test security (manager vs member)
   - [ ] Generate PDF report
   - [ ] Trigger cron job manually
+  - [ ] Include smoke/integration checks từ Day 9
 - [ ] **Production Checklist:** All items checked
 - [ ] **Self-assessment:** Đủ để nhận task công ty?
+
+### 📦 Output artifacts
+- Integration checklist + defect log
+- Production checklist snapshot
 
 ### ❓ Câu hỏi kiểm tra
 1. **Integration**: Làm sao test end-to-end mà không bỏ sót feature?
@@ -1392,6 +1510,10 @@ Hiểu điểm khác biệt Odoo 14 vs 17/19 + **Final assessment** để xác �
   - [ ] Create view với xpath inheritance
   - [ ] Debug 1 pre-made bug
 - [ ] **Self-Assessment:** Rate ORM, Security, Debug (1-10)
+
+### 📦 Output artifacts
+- Summary differences 14 vs 17/19
+- Final practical test notes + scoring
 
 ### ❓ Câu hỏi kiểm tra
 1. **Version**: `@api.multi` bị loại bỏ từ version nào?

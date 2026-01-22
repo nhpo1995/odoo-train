@@ -22,7 +22,7 @@
 | Field | Type | Params | Day |
 |-------|------|--------|-----|
 | name | Char | required, index | 5 |
-| description | Text | - | 5 |
+| description | Text | required | 5 |
 | image | Image | max 1920x1080 | 5 |
 | task_ids | One2many | → task.task.project_id | 6 |
 | manager_id | Many2one | → res.users | 6 |
@@ -44,9 +44,10 @@
 | hours_estimated | Float | digits=(6,2) | 5 |
 | hours_spent | Float | digits=(6,2) | 5 |
 | color | Integer | - | 5 |
-| project_id | Many2one | → task.project, ondelete=cascade | 6 |
+| project_id | Many2one | → task.project, ondelete=cascade, index | 6 |
 | assigned_user_id | Many2one | → res.users, default=env.user | 6 |
 | tag_ids | Many2many | → task.tag | 6 |
+| has_urgent_tags | Boolean | compute | 7 |
 | is_overdue | Boolean | compute | 7 |
 | hours_remaining | Float | compute | 7 |
 | progress | Float | compute | 7 |
@@ -109,7 +110,7 @@
 | 7 | Computed fields | task.task, task.project |
 | 8 | Constraints, Statusbar | task.task |
 | 9 | Onchange, Wizard, amount, total_revenue | task.state.wizard, task.task, task.project |
-| 10 | Context, Domain, Report, Calendar view | task.task, task.project |
+| 10 | Context, Domain, Report, Calendar view, frontend assets (CSS/JS, QWeb inheritance) | task.task, task.project |
 | 11-13 | Security (Groups, Rules, Multi-company) | All |
 | 14 | Subtasks (parent_id, child_ids, subtask_count) | task.task |
 | 15-17 | Inheritance, Debug, Chatter | res.partner extension |
@@ -142,8 +143,32 @@ task_management/
 ├── report/                  # Day 10
 │   ├── task_report.xml
 │   └── task_report_template.xml
+├── static/                  # Day 10
+│   └── src/
+│       ├── css/
+│       │   └── task_kanban.css
+│       └── js/
+│           └── task_debug.js
 └── controllers/             # Day 18
     └── main.py
+```
+
+---
+
+## 📦 __manifest__.py (Day 10 assets)
+
+- Register assets in `web.assets_backend`
+  - `task_management/static/src/css/task_kanban.css`
+  - `task_management/static/src/js/task_debug.js`
+
+Example snippet:
+```python
+'assets': {
+    'web.assets_backend': [
+        'task_management/static/src/css/task_kanban.css',
+        'task_management/static/src/js/task_debug.js',
+    ],
+},
 ```
 
 ---
@@ -172,3 +197,6 @@ task_management/
 |------|--------|
 | 2026-01-19 | Simplified structure - TARGET only, removed ACTUAL |
 | 2026-01-22 | Added: amount (Day 9), total_revenue/total_hours (Day 9), subtasks (Day 14); Split Security Day 11-13, Subtasks Day 14 |
+| 2026-01-22 | Added frontend assets for Day 10 (CSS/JS + QWeb inheritance) |
+| 2026-01-22 | Added __manifest__.py assets registration notes |
+| 2026-01-22 | Synced spec with actual: task.task description required, project_id index, has_urgent_tags field |
