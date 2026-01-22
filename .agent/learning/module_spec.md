@@ -82,7 +82,7 @@
 | task.task | Tree | decorations, is_overdue |
 | task.task | Kanban | color picker, tags, priority |
 | task.task | Search | filters, group by |
-| task.task | Calendar | due_date, assigned_user_id | Day 10 |
+| task.task | Calendar | due_date, assigned_user_id | Day 17 |
 | task.project | Form | O2M tab, image widget |
 | task.project | Kanban | cover image, task_count badge |
 | task.tag | Form/Tree | basic CRUD |
@@ -110,10 +110,12 @@
 | 7 | Computed fields | task.task, task.project |
 | 8 | Constraints, Statusbar | task.task |
 | 9 | Onchange, Wizard, amount, total_revenue | task.state.wizard, task.task, task.project |
-| 10 | Context, Domain, Report, Calendar view, frontend assets (CSS/JS, QWeb inheritance) | task.task, task.project |
-| 11-13 | Security (Groups, Rules, Multi-company) | All |
+| 10 | Context, Domain, QWeb Report, sudo() | task.task, task.project |
+| 11-13 | Security (ACL, Groups, Rules, Debug, Multi-company) | All |
 | 14 | Subtasks (parent_id, child_ids, subtask_count) | task.task |
-| 15-17 | Inheritance, Debug, Chatter | res.partner extension |
+| 15 | Module Reading, **mail.thread integration** | res.partner, task.task |
+| 16 | Inheritance (_inherit, views, xpath) | res.partner extension |
+| 17 | Override Methods, Fix Bugs, **Calendar view, Assets (CSS/JS)** | task.task |
 | 18 | HTTP Controllers | API |
 | 19 | Scheduled Actions | ir.cron |
 | 20-21 | Review, Polish | All |
@@ -143,7 +145,7 @@ task_management/
 ├── report/                  # Day 10
 │   ├── task_report.xml
 │   └── task_report_template.xml
-├── static/                  # Day 10
+├── static/                  # Day 17
 │   └── src/
 │       ├── css/
 │       │   └── task_kanban.css
@@ -155,7 +157,7 @@ task_management/
 
 ---
 
-## 📦 __manifest__.py (Day 10 assets)
+## 📦 __manifest__.py (Day 17 assets)
 
 - Register assets in `web.assets_backend`
   - `task_management/static/src/css/task_kanban.css`
@@ -200,3 +202,4 @@ Example snippet:
 | 2026-01-22 | Added frontend assets for Day 10 (CSS/JS + QWeb inheritance) |
 | 2026-01-22 | Added __manifest__.py assets registration notes |
 | 2026-01-22 | Synced spec with actual: task.task description required, project_id index, has_urgent_tags field |
+| 2026-01-22 | **Rebalanced**: Calendar+Assets moved to Day 17, mail.thread to Day 15, Security Debug merged into Day 13 |

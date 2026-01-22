@@ -15,9 +15,9 @@
      * Multi-level caching system
      * Two different inheritance mechanisms
      * Rich set of field types:
-          - classical (varchar, integer, boolean, ...)
-          - relational (one2many, many2one, many2many)
-          - functional
+            - classical (varchar, integer, boolean, ...)
+            - relational (one2many, many2one, many2many)
+            - functional
 
 """
 

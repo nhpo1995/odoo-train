@@ -51,14 +51,14 @@
 | Phase | Ngày | Trạng thái | Điểm TB |
 |-------|------|------------|---------|
 | 1. ORM Foundation | Day 1-5 | ✅ DONE | 8.8/10 |
-| 2. Business Logic | Day 6-10 | ⏳ (2/5) | 8.75/10 |
+| 2. Business Logic | Day 6-10 | ⏳ (3/5) | 8.75/10 |
 | 3. Security | Day 11-13 | ⬜ | _/10 |
 | 3b. Subtasks | Day 14 | ⬜ | _/10 |
 | 4. Module Reading | Day 15-17 | ⬜ | _/10 |
 | 5. Controller | Day 18-19 | ⬜ | _/10 |
 | 6. Consolidation | Day 20-21 | ⬜ | _/10 |
 
-**Tổng tiến độ**: 7/21 ngày học
+**Tổng tiến độ**: 8/21 ngày học
 
 **Chi tiết Phase 1:**
 - Day 1: 9.5/10 ✅
@@ -672,25 +672,16 @@ Phân biệt onchange (UI-only) vs computed (data-driven) + **Tạo Wizard đầ
 ### 🎯 Mục đích chủ đạo
 Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report đầu tiên**.
 
-### 🧭 Scope split
-- **Core (must)**: Context + Domain + PDF Report
-- **Advanced (required)**: Calendar view + frontend assets (CSS/JS/QWeb)
-- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
-
 ### 📚 Đề mục cần học
 - [ ] `self.env.context` - dictionary truyền suốt request
 - [ ] `with_context()` - thay đổi context
 - [ ] Domain syntax: `[('field', 'operator', 'value')]`
 - [ ] Domain operators: =, !=, in, not in, like, ilike, >, <
 - [ ] **QWeb Template Engine** - t-foreach, t-field, t-if
-- [ ] **QWeb template inheritance** - t-inherit, xpath, position
-- [ ] **Web assets bundles** - `web.assets_backend`, debug=assets
-- [ ] **JS/CSS basics** - `odoo.define`, `require`, module load order
 - [ ] **ir.actions.report** - PDF report action
 - [ ] **web.external_layout** - Header/Footer template
 - [ ] **sudo()** - Bypass security cho backend operations
 - [ ] **with_user()** - Execute as different user
-- [ ] **with_company()** - Multi-company context switching
 
 ### 📂 Source code cần đọc
 | File | Focus | Dòng gợi ý |
@@ -699,7 +690,6 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
 | `odoo/osv/expression.py` | Domain parsing | Tìm `TERM_OPERATORS` |
 | `odoo/addons/base/reports/` | Report examples | Toàn bộ folder |
 | `odoo/models.py` | sudo, with_context | Tìm `def sudo`, `def with_context` |
-| `odoo/addons/web/__manifest__.py` | Assets bundles | `web.assets_backend` |
 
 ### ✅ Tiêu chí đạt
 - [ ] Debug được `self.env.context` trong method
@@ -712,22 +702,13 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
   - [ ] Sử dụng `web.external_layout` cho header/footer
 - [ ] **Report Action:** Nút "Print" trong Project form
 - [ ] **Test Report:** Generate PDF từ UI
-- [ ] **Calendar view** cho `task.task` theo `due_date`
-- [ ] **Frontend customization basics:**
-  - [ ] Thêm `static/src/css/task_kanban.css` và `static/src/js/task_debug.js`
-  - [ ] Register assets trong `__manifest__.py` → `web.assets_backend`
-  - [ ] Tham chiếu snippet assets trong `module_spec.md` để đảm bảo đúng format
-  - [ ] Add class `o_task_overdue` khi `is_overdue` trong Kanban template
-  - [ ] Verify bằng `?debug=assets` + console log từ JS
 - [ ] **Environment methods:**
   - [ ] Dùng `sudo()` để bypass security trong backend logic
   - [ ] Dùng `with_context()` để pass custom values
-  - [ ] Hiểu khi nào cần `with_company()` (multi-company)
 
 ### 📦 Output artifacts
 - Report XML + QWeb template
-- Calendar view XML cho task.task
-- Assets files + manifest assets block
+- report/ folder structure
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -763,7 +744,7 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
 
 ---
 
-# 📅 PHASE 3: SECURITY (Day 11-14)
+# 📅 PHASE 3: SECURITY (Day 11-13) + SUBTASKS (Day 14)
 
 ### 🛠️ Debug checklist (Phase 3)
 - [ ] Test with different users/groups; compare `sudo()` vs normal
@@ -893,10 +874,10 @@ Tổ chức quyền cho `task_management` thành groups: Manager vs Member.
 
 ---
 
-## Day 13: Record Rules (ir.rule)
+## Day 13: Record Rules + Security Debug (ir.rule)
 
 ### 🎯 Mục đích chủ đạo
-Kiểm soát user chỉ thấy/sửa records cụ thể (row-level security).
+Kiểm soát user chỉ thấy/sửa records cụ thể (row-level security) + **Debug security issues**.
 
 ### 📚 Đề mục cần học
 - [ ] ir.rule model
@@ -905,26 +886,40 @@ Kiểm soát user chỉ thấy/sửa records cụ thể (row-level security).
 - [ ] perm_read/write/create/unlink trên rule
 - [ ] **Multi-company rules** - company_ids pattern
 - [ ] **Company-aware domains** - ('company_id', 'in', company_ids)
+- [ ] **Security Debug:** Đọc AccessError, sudo() bypass, log rule evaluation
+- [ ] **Security flow**: request → ACL → Record Rule → Data
+- [ ] **Debug tools**: `_check_access()`, `check_field_access_rights()`
 
 ### 📂 Source code cần đọc
 | File | Focus | Dòng gợi ý |
 |------|-------|------------|
-| `odoo/addons/base/models/ir_rule.py` | IrRule class | Tìm `class IrRule` |
+| `odoo/addons/base/models/ir_rule.py` | IrRule class, `_compute_domain` | Tìm `class IrRule` |
 | `odoo/addons/base/security/base_security.xml` | Rule examples | Tìm `ir.rule` |
 | `odoo/addons/sale/security/` | Multi-company examples | Toàn bộ folder |
+| `odoo/models.py` | `check_access_rights`, `_check_access` | Kiểm tra ACL |
 
 ### ✅ Tiêu chí đạt
 - [ ] Tạo được rule: member chỉ thấy tasks mình được assign
 - [ ] Test rule sai → debug tại sao không thấy records
 - [ ] Hiểu ACL vs Record Rule khác nhau
 - [ ] **Multi-company rule pattern:**
-  - [ ] Thêm `company_id` field vào task.task
+  - [ ] Thêm `company_id` field vào task.task và task.project
   - [ ] Tạo rule: `['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]`
   - [ ] Test: User company A không thấy tasks company B
+- [ ] **Debug 3 security bugs:**
+  - [ ] Bug 1: Missing ACL cho wizard model
+  - [ ] Bug 2: Record rule sai domain
+  - [ ] Bug 3: Group membership không đúng
+- [ ] **Integration Test Security:**
+  - [ ] Test Phase 3 với 2 users (manager/member)
+  - [ ] Verify: member không thấy tasks của member khác
+  - [ ] Verify: manager thấy hết
 
 ### 📦 Output artifacts
 - Record rules trong `security.xml`
 - `company_id` field + test notes multi-company
+- 3 bug scenarios + root-cause notes
+- Checklist test security (manager vs member)
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -941,60 +936,72 @@ Kiểm soát user chỉ thấy/sửa records cụ thể (row-level security).
 3. **Global rule**: Tại sao global rule không có group? Ảnh hưởng gì?
 4. **Multi-company**: `company_ids` lấy từ đâu trong domain_force?
 5. **Debug**: User không thấy records dù ACL = full access. Làm sao debug?
-6. **sudo()**: Record rule có bị bypass bởi sudo() không?
+6. **sudo()**: sudo() bypass cả ACL và Record Rule?
+7. **Debug flow**: Security check thực hiện theo thứ tự nào? ACL hay Rule trước?
+8. **AccessError**: Làm sao phân biệt lỗi do ACL vs Record Rule?
+9. **Common bug**: Tại sao wizard hay bị AccessError?
+10. **Production**: Khi nào nên dùng sudo() trong production code?
 
 ### 🔗 Liên kết kiến thức
 - **Prerequisites**: Day 10 (Domain), Day 12 (Groups)
 - **Builds on**: Domain syntax, group references
-- **Prepares for**: Day 14 (Debug security issues)
-- **Module state sau Day 13**: Record rules cho assigned tasks, multi-company support
+- **Prepares for**: Day 14 (Subtasks - self-referential relationships)
+- **Module state sau Day 13**: Security hoàn chỉnh (ACL + Groups + Rules + Debug skills), Phase 3 COMPLETE
 
 ### 📌 Ghi chú AI
 > _(AI sẽ điền sau khi hoàn thành)_
 
 ### ⚠️ Lưu ý cho Day 14
-> Day 14 kết thúc Phase 3 với Debug:
-> - Tổng hợp tất cả ACL + Groups + Rules
-> - Debug scenarios thực tế
-> - Integration test security
+> Day 14 chuyển sang Phase 3b - Subtasks:
+> - Self-referential Many2one (parent_id)
+> - One2many inverse (child_ids)
+> - Recursive computed fields (subtask_count)
 
 ---
 
-## Day 14: Debug Security Issues
+## Day 14: Subtasks - Self-Referential Relationships (Phase 3b)
 
 ### 🎯 Mục đích chủ đạo
-Thực hành debug các lỗi security thường gặp.
+Implement subtasks với self-referential Many2one và computed subtask_count.
 
 ### 📚 Đề mục cần học
-- [ ] Đọc AccessError message - phân tích lỗi
-- [ ] Debug bằng sudo() - bypass để tìm root cause
-- [ ] Log rule evaluation - `--log-level=debug`
-- [ ] Common security bugs và cách fix
-- [ ] **Security flow**: request → ACL → Record Rule → Data
-- [ ] **Debug tools**: `_check_access()`, `check_field_access_rights()`
+- [ ] **Self-referential Many2one** - task.task → task.task (parent_id)
+- [ ] **Inverse One2many** - child_ids từ parent_id
+- [ ] **Recursive computed fields** - subtask_count counting children
+- [ ] **Domain với parent** - Chỉ hiển thị parent tasks trong dropdown
+- [ ] **View hierarchy** - Hiển thị subtasks trong form view
+- [ ] **Gotchas**: Circular reference prevention, recursion depth
 
 ### 📂 Source code cần đọc
 | File | Focus | Dòng gợi ý |
 |------|-------|------------|
-| `odoo/addons/base/models/ir_rule.py` | `_compute_domain` | Logic tính domain |
-| `odoo/models.py` | `check_access_rights` | Kiểm tra ACL |
-| `odoo/models.py` | `_check_access` | Full access check |
+| `odoo/addons/project/models/project.py` | parent_id pattern | Tìm `parent_id` |
+| `odoo/fields.py` | Self-referential check | Tìm `comodel_name` |
+| `odoo/addons/hr/models/hr_employee.py` | Manager hierarchy | Tìm `parent_id` |
 
 ### ✅ Tiêu chí đạt
-- [ ] Tạo được 3 bug security giả lập → tự debug:
-  - [ ] Bug 1: Missing ACL cho wizard model
-  - [ ] Bug 2: Record rule sai domain
-  - [ ] Bug 3: Group membership không đúng
-- [ ] Dùng sudo() bypass security để test
-- [ ] Giải thích được flow: request → ACL → Record Rule
-- [ ] **Integration Test Security:**
-  - [ ] Test toàn bộ Phase 3 với 2 users (manager/member)
-  - [ ] Verify: member không thấy tasks của member khác
-  - [ ] Verify: manager thấy hết
+- [ ] **Add parent_id field:**
+  - [ ] `parent_id = fields.Many2one('task.task', string='Parent Task', index=True)`
+  - [ ] Domain: `[('id', '!=', id), ('parent_id', '=', False)]` - Chỉ show top-level tasks
+  - [ ] ondelete='cascade' - Xóa parent → xóa subtasks
+- [ ] **Add child_ids field:**
+  - [ ] `child_ids = fields.One2many('task.task', 'parent_id', string='Subtasks')`
+- [ ] **Add subtask_count computed:**
+  - [ ] `subtask_count = fields.Integer(compute='_compute_subtask_count')`
+  - [ ] @api.depends('child_ids')
+- [ ] **Update Views:**
+  - [ ] Form: Tab "Subtasks" với O2M widget
+  - [ ] Tree: Column subtask_count với badge
+  - [ ] Kanban: Show subtask indicator
+- [ ] **Test scenarios:**
+  - [ ] Create task → Add subtask → Verify count
+  - [ ] Delete parent → Verify subtasks deleted
+  - [ ] Prevent circular reference (parent = child)
 
 ### 📦 Output artifacts
-- 3 bug scenarios + root-cause notes
-- Checklist test security (manager vs member)
+- Updated task.py với parent_id, child_ids, subtask_count
+- Updated task_views.xml với Subtasks tab
+- Test notes: hierarchy và deletion cascade
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -1006,18 +1013,18 @@ Thực hành debug các lỗi security thường gặp.
 | **TỔNG NGÀY 14** | **_/10** | |
 
 ### ❓ Câu hỏi kiểm tra
-1. **Debug flow**: Security check thực hiện theo thứ tự nào? ACL hay Rule trước?
-2. **AccessError**: Làm sao phân biệt lỗi do ACL vs Record Rule?
-3. **Logging**: Cài đặt gì để log rule evaluation?
-4. **Common bug**: Tại sao wizard hay bị AccessError?
-5. **sudo()**: sudo() bypass cả ACL và Record Rule?
-6. **Production**: Khi nào nên dùng sudo() trong production code?
+1. **Self-ref**: Tại sao cần domain `('id', '!=', id)` cho parent_id?
+2. **Circular**: Làm sao prevent circular reference (A → B → A)?
+3. **Cascade**: ondelete='cascade' vs 'set null' cho subtasks - chọn cái nào?
+4. **Computed**: `subtask_count` cần store=True không? Tại sao?
+5. **View**: Hiển thị subtasks trong Kanban như thế nào?
+6. **Performance**: Với nhiều levels (sub-sub-tasks), performance concern gì?
 
 ### 🔗 Liên kết kiến thức
-- **Prerequisites**: Day 11-13 (Tất cả security concepts)
-- **Builds on**: ACL + Groups + Rules để debug
-- **Prepares for**: Phase 4 (Đọc module khác, thấy security patterns)
-- **Module state sau Day 14**: Security hoàn chỉnh (ACL + Groups + Rules + Debug skills), Phase 3 COMPLETE
+- **Prerequisites**: Day 6 (Relationships M2O/O2M), Day 7 (Computed fields)
+- **Builds on**: Relationships + computed logic
+- **Prepares for**: Day 15 (Module Reading - thấy hierarchy patterns)
+- **Module state sau Day 14**: Subtasks hoàn chỉnh (parent_id, child_ids, subtask_count)
 
 ### 📌 Ghi chú AI
 > _(AI sẽ điền sau khi hoàn thành)_
@@ -1026,7 +1033,7 @@ Thực hành debug các lỗi security thường gặp.
 > Phase 4 MODULE READING bắt đầu:
 > - Đọc module Odoo có sẵn (res.partner)
 > - Thấy security patterns trong production module
-> - Chuẩn bị cho inheritance Day 16
+> - mail.thread integration basics
 
 ---
 
@@ -1039,21 +1046,19 @@ Thực hành debug các lỗi security thường gặp.
 
 ---
 
-## Day 15: Read Existing Module
+## Day 15: Read Existing Module + mail.thread Integration
 
 ### 🎯 Mục đích chủ đạo
-Đọc và hiểu module có sẵn của Odoo (res_partner).
-
-### 🧭 Scope split
-- **Core (must)**: models + views + manifest; trace menu → action → view → model
-- **Advanced (required)**: scan security + addons phụ thuộc để thấy patterns
-- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
+Đọc và hiểu module có sẵn của Odoo (res_partner) + **Integrate mail.thread cho chatter**.
 
 ### 📚 Đề mục cần học
 - [ ] File structure của module chuẩn
 - [ ] __manifest__.py
 - [ ] models/, views/, security/
 - [ ] Trace flow từ menu → action → view → model
+- [ ] **mail.thread mixin** - Chatter integration
+- [ ] **mail.activity.mixin** - Activity scheduling
+- [ ] **Tracking fields** - track_visibility parameter
 
 ### 📂 Source code cần đọc
 | File | Focus | Dòng gợi ý |
@@ -1061,15 +1066,23 @@ Thực hành debug các lỗi security thường gặp.
 | `odoo/addons/base/models/res_partner.py` | Partner model | Toàn bộ file |
 | `odoo/addons/base/__manifest__.py` | Manifest | Toàn bộ file |
 | `odoo/addons/base/views/res_partner_views.xml` | Views | Toàn bộ file |
+| `odoo/addons/mail/models/mail_thread.py` | mail.thread | Tìm `class MailThread` |
 
 ### ✅ Tiêu chí đạt
 - [ ] Vẽ được diagram: file nào liên quan đến res.partner
 - [ ] Hiểu flow data từ UI → model
 - [ ] Tìm được method nào được override
+- [ ] **mail.thread integration cho task.task:**
+  - [ ] Add `_inherit = ['mail.thread', 'mail.activity.mixin']`
+  - [ ] Add `'mail'` to depends trong __manifest__.py
+  - [ ] Add chatter widget trong form view: `<div class="oe_chatter">...</div>`
+  - [ ] Add tracking to important fields: `tracking=True`
+- [ ] **Test chatter:** Post message, log changes, schedule activity
 
 ### 📦 Output artifacts
 - Sơ đồ module (flow + file map)
 - Notes các method override quan trọng
+- Updated task.task với mail.thread
 
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
@@ -1085,14 +1098,15 @@ Thực hành debug các lỗi security thường gặp.
 2. **Manifest**: `depends` và `data` trong manifest khác nhau thế nào?
 3. **Flow**: Trace flow khi user click menu đến xem record.
 4. **Patterns**: res.partner dùng computed fields nào? Tại sao?
-5. **Security**: res.partner có record rules nào? Tìm trong source.
-6. **Best practice**: Tại sao res.partner có nhiều `_inherit` từ modules khác?
+5. **mail.thread**: message_post() làm gì? Khi nào được gọi tự động?
+6. **Tracking**: tracking=True hoạt động thế nào? Store ở đâu?
+7. **Activity**: mail.activity.mixin cho phép làm gì trong UI?
 
 ### 🔗 Liên kết kiến thức
 - **Prerequisites**: Phase 1-3 (Hiểu models, views, security)
 - **Builds on**: Kiến thức tổng hợp để đọc source
 - **Prepares for**: Day 16 (Inheritance patterns)
-- **Module state sau Day 15**: Hiểu cấu trúc module Odoo
+- **Module state sau Day 15**: Hiểu cấu trúc module Odoo, task.task có chatter
 
 ### 📌 Ghi chú AI
 > _(AI sẽ điền sau khi hoàn thành)_
@@ -1180,15 +1194,10 @@ Master 3 loại inheritance trong Odoo + **Advanced Xpath patterns**.
 
 ---
 
-## Day 17: Override Methods + Fix Bugs
+## Day 17: Override Methods + Fix Bugs + Calendar/Assets
 
 ### 🎯 Mục đích chủ đạo
-Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
-
-### 🧭 Scope split
-- **Core (must)**: override create/write + debug 3 bugs phổ biến
-- **Advanced (required)**: debug thêm 2 bugs nâng cao + logging sâu
-- **Rule**: Nếu thiếu thời gian, kéo dài ngày; không bỏ phần Advanced.
+Override method đúng cách, fix bugs phổ biến + **Calendar view và frontend customization**.
 
 ### 📚 Đề mục cần học
 - [ ] Override method pattern (super())
@@ -1202,6 +1211,9 @@ Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
   - [ ] `vals` vs `vals_list` confusion
   - [ ] Recursive call không có `sudo()`
 - [ ] **Debug tools**: `_logger.debug()`, `pdb`, traceback
+- [ ] **Calendar view** - date_start, date_stop, color
+- [ ] **Web assets bundles** - `web.assets_backend`, debug=assets
+- [ ] **CSS/JS basics** - Static files, manifest registration
 
 ### 📂 Source code cần đọc
 | File | Focus | Dòng gợi ý |
@@ -1209,6 +1221,8 @@ Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
 | `odoo/addons/sale/models/sale_order.py` | Override create/write | Tìm `def create` |
 | `odoo/models.py` | super() pattern | Tìm `super()` |
 | `odoo/models.py` | ensure_one | Tìm `def ensure_one` |
+| `odoo/addons/web/__manifest__.py` | Assets bundles | `web.assets_backend` |
+| `odoo/addons/calendar/views/` | Calendar view examples | Toàn bộ folder |
 
 ### ✅ Tiêu chí đạt
 - [ ] Override method đúng cách với super()
@@ -1219,10 +1233,21 @@ Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
   - [ ] Bug 4: `ensure_one()` missing trên expected single record
   - [ ] Bug 5: Infinite loop do thiếu `sudo()` trong override
 - [ ] Đọc được traceback và tìm root cause
-- [ ] Giải thích được tại sao mỗi bug xảy ra
+- [ ] **Calendar view cho task.task:**
+  - [ ] Tạo `<calendar>` view với `date_start="due_date"`
+  - [ ] Add color field mapping
+  - [ ] Add quick create
+- [ ] **Frontend customization:**
+  - [ ] Thêm `static/src/css/task_kanban.css`
+  - [ ] Thêm `static/src/js/task_debug.js`
+  - [ ] Register assets trong `__manifest__.py` → `web.assets_backend`
+  - [ ] Add class `o_task_overdue` trong Kanban template
+  - [ ] Verify bằng `?debug=assets` + console log từ JS
 
 ### 📦 Output artifacts
 - Patch notes cho từng bug fix
+- Calendar view XML
+- Assets files + manifest block
 - Checklist debug steps (traceback → root cause → fix)
 
 ### 📝 Kết quả ngày
@@ -1240,13 +1265,14 @@ Thực hành override method đúng cách và fix bugs phổ biến trong Odoo.
 3. **browse()**: `browse(5)` vs `browse([5])` khác nhau thế nào?
 4. **ensure_one()**: Khi nào cần, khi nào không?
 5. **vals**: Tại sao modify vals SAU super() có thể gây bug?
-6. **Logging**: Cài đặt logging để debug trong Odoo?
+6. **Calendar**: date_start vs date_stop trong calendar view?
+7. **Assets**: Làm sao debug CSS/JS với `?debug=assets`?
 
 ### 🔗 Liên kết kiến thức
 - **Prerequisites**: Day 3 (CRUD), Day 16 (Inheritance)
 - **Builds on**: _inherit để override, super() pattern
 - **Prepares for**: Day 18 (Controllers cũng cần error handling)
-- **Module state sau Day 17**: Debug skills hoàn chỉnh, Phase 4 COMPLETE
+- **Module state sau Day 17**: Debug skills hoàn chỉnh, Calendar view, frontend assets, Phase 4 COMPLETE
 
 ### 📌 Ghi chú AI
 > _(AI sẽ điền sau khi hoàn thành)_
