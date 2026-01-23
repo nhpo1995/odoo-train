@@ -1,8 +1,11 @@
 from datetime import datetime
 from odoo import models, fields, api
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from typing import Optional
 import logging
+from loguru import logger
+
+from odoo.tools.float_utils import float_compare
 
 _logger = logging.getLogger(__name__)
 
@@ -11,7 +14,7 @@ class Task(models.Model):
     _name = "task.task"
     _description = "Task"
 
-    name = fields.Char(string="Task Name", required=True)
+    name = fields.Char(string="Task Name", required=True, copy=False)
     description = fields.Text(string="Task Description", required=True)
 
     @api.model
@@ -84,6 +87,43 @@ class Task(models.Model):
         inverse="_inverse_progress",
     )
 
+    _sql_constraints = [
+        (
+            "name_project_id_unique",
+            "UNIQUE(project_id, name)",
+            "Task title must be unique within the same Project!",
+        ),
+        (
+            "hours_estimated_check",
+            "CHECK(hours_estimated >= 0)",
+            "Hours estimated should greater or equal 0!",
+        ),
+        (
+            "hours_spent_check",
+            "CHECK(hours_spent >= 0)",
+            "Hours spent should greater or equal 0",
+        ),
+    ]
+
+    @api.constrains("hours_spent", "hours_estimated", "state")
+    def _check_hours_on_done(self):
+        for rec in self:
+            if (
+                rec.state == "done"
+                and float_compare(rec.hours_spent, rec.hours_estimated, 2) > 0
+            ):
+                raise ValidationError(
+                    "Hours spent should not over the hours estimate on a Done task -> fix the time!"
+                )
+
+    @api.constrains("due_date")
+    def _check_due_date(self):
+        now = fields.Datetime.now()
+        for rec in self:
+            if rec.due_date and rec.due_date < now:
+                raise ValidationError(
+                    "Due date should be greater than the present datetime!"
+                )
 
     @api.depends("hours_spent", "hours_estimated", "state")
     def _compute_progress(self):
@@ -107,7 +147,7 @@ class Task(models.Model):
         for rec in self:
             rec.hours_remaining = rec.hours_estimated - rec.hours_spent
 
-    def _search_is_overdue(self, operator, value): 
+    def _search_is_overdue(self, operator, value):
         now = fields.Datetime.now()
         if operator == "=" and value is True:
             return [("due_date", "<", now), ("state", "!=", "done")]
@@ -151,6 +191,12 @@ class Task(models.Model):
                 if not priority:
                     raise UserError("Cannot remove priority from done task!")
         return super().write(vals)
+
+    def unlink(self):
+        for rec in self:
+            if rec.state == "done":
+                raise UserError("Cannot delete a done task!")
+        return super().unlink()
 
     def action_mark_done(self):
         """Mark tasks as done."""

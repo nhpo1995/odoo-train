@@ -19,6 +19,7 @@
                 <field name="due_date"/>
                 <field name="tag_ids" widget="many2many_tags"/>
                 <field name="hours_remaining" decoration-danger="hours_remaining &lt; 0"/>
+                <field name="project_id"/>
                 <button name="action_mark_done" 
                         type="object" 
                         string="Mark Done"
@@ -40,6 +41,9 @@
         <field name="model">task.task</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"  clickable="1"/>
+                </header>
                 <sheet>
                     <group col="4">
                         <field name="name" placeholder="Task's name..."/>
@@ -51,8 +55,6 @@
 
                     <group>
                         <group>
-                            <field name="state"
-                                attrs="{'readonly': [('id', '=', False)]}"/>
                             <field name="hours_estimated" 
                                     placeholder="0000.00h"
                                     widget="float_time"

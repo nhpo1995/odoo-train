@@ -1,6 +1,6 @@
 {
     "name": "Task Management",
-    "version": "1.0",
+    "version": "1.0.1",
     "category": "Tools",
     "summary": "A task management module",
     "author": "internal",

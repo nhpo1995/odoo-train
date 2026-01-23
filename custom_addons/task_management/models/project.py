@@ -4,6 +4,7 @@ from odoo import api, models, fields
 class Project(models.Model):
     _name = "task.project"
     _description = "A project have many tasks"
+    _rec_name = "name"
 
     name = fields.Char(string="Project Name", required=True, index=True)
     description = fields.Text()
@@ -21,7 +22,7 @@ class Project(models.Model):
 
     task_count = fields.Integer(compute="_compute_task_count", store=True)
 
-    @api.depends('task_ids')
+    @api.depends("task_ids")
     def _compute_task_count(self):
         for project in self:
             project.task_count = len(project.task_ids)
