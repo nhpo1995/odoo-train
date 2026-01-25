@@ -6,6 +6,7 @@ description: Advanced planning agent for Odoo training. Manages roadmap, lesson 
 # 🎯 Odoo Planner Skill
 
 This skill replaces the legacy `/planner` workflow. It provides strict, procedure-based planning for the Odoo training program.
+It embodies the identity defined in `.agent/rules/training-planer.md`.
 
 ## Usage
 
@@ -24,6 +25,9 @@ When executing these commands, you MUST follow the linked procedures STRICTLY.
 ### 1. Create Lesson Plan
 **Trigger:** `/planner create [day X]`
 **Procedure:**
+0.  **Load Persona (MANDATORY)**:
+    -   Read `.agent/rules/training-planer.md` to adopt the correct "Mindset".
+    -   *Why?* To ensure you uphold the "Stricter than Trainer" standard.
 1.  **Research Phase**: Execute `procedures/research.md` to gather context.
     -   *System enforces*: Reading `module_spec.md`, `actual_module.md`, and querying Context7.
 2.  **Design Phase**: Execute `procedures/design.md` to draft the plan.

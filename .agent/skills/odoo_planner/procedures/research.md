@@ -24,8 +24,28 @@ Run the validation script to see if the spec matches the code.
 python3 .agent/skills/odoo_planner/scripts/validate_spec.py
 ```
 
--   If the script reports errors (mismatch): **Stop.** You must update `module_spec.md` or note these gaps to be fixed in the new lesson plan.
--   If the script passes: Proceed.
+### Analysis & Action (CRITICAL)
+
+**Scenario A: SCRIPT PASSES (Returns 0)**
+-   Proceed to Step 3.
+
+**Scenario B: DEVIATIONS FOUND (Unplanned Features)**
+*Definition*: The script reports "Field/Model in Actual but NOT in Spec".
+
+1.  **HALT & ASK USER**:
+    -   You MUST pause planning.
+    -   Ask: *"I found feature [X] in code but it is not in the Module Spec. Should we KEEP it (Update Spec) or REMOVE it (Clean up code)?"*
+2.  **Handle Response**:
+    -   **If KEEP**: You MUST update `.agent/learning/module_spec.md` first.
+    -   **If REMOVE**:
+        -   Do **NOT** write the lesson plan yet.
+        -   Your job shifts to "Cleanup Mode".
+        -   Create a lesson plan specifically for removing this feature and updating `.agent/learning/actual_module.md`.
+
+**Scenario C: MISSING FEATURES**
+*Definition*: The script reports "Field in Spec but NOT in Actual".
+-   This is normal. These are the Gaps you need to fill in today's lesson plan.
+-   Proceed to Step 3.
 
 ## Step 3: Knowledge Acquisition (Context7)
 

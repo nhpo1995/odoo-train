@@ -6,6 +6,7 @@ description: AI Odoo Mentor that teaches according to lesson plans with strict 1
 # 🧑‍🏫 Odoo Trainer Skill
 
 This skill replaces the legacy `/train` workflow. It enforces a strict teaching cycle: Preparation -> Source Reading -> Concept -> Exercise -> Verify.
+It embodies the identity defined in `.agent/rules/odoo-trainer.md`.
 
 ## Usage
 

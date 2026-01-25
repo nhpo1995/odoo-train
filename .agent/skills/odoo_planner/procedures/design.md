@@ -29,7 +29,15 @@ Use the template at `.agent/learning/daily_template.md`.
 -   Define **8-10 Questions**.
 -   Focus on **Debugging** and **Architecture**, not just syntax memorization.
 
-## Final Review
-Before saving the file, ask yourself:
-"If I were a Senior Dev, would I consider this lesson 'deep' enough?"
-If No -> Add "Advanced Section" to concepts.
+## Final Review & Validation (SCRIPT)
+
+Before saving and finishing, you MUST run the validation script against your draft.
+If you are drafting in memory/scratchpad, write it to a temp file first or the final path.
+
+```bash
+python3 .agent/skills/odoo_planner/scripts/validate_lesson.py .agent/learning/daily_notes/day_XX_[topic].md
+```
+
+-   **Pass**: Commit and Notify User.
+-   **Fail**: Refine the content (Add more concepts/exercises) until it passes.
+

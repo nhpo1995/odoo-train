@@ -1,33 +1,107 @@
-[![Build Status](https://runbot.odoo.com/runbot/badge/flat/1/master.svg)](https://runbot.odoo.com/runbot)
-[![Tech Doc](https://img.shields.io/badge/master-docs-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/documentation/master)
-[![Help](https://img.shields.io/badge/master-help-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/forum/help-1)
-[![Nightly Builds](https://img.shields.io/badge/master-nightly-875A7B.svg?style=flat&colorA=8F8F8F)](https://nightly.odoo.com/)
+# 🧠 Agentic Odoo Learning System
 
-Odoo
-----
+> **A self-improving, rigorous AI mentorship program for mastering Odoo Framework.**
+> Built on a **Hybrid Architecture** of Rules (Identity), Skills (Execution), and Scripts (Guardrails).
 
-Odoo is a suite of web based open source business apps.
+![Architecture](https://img.shields.io/badge/Architecture-Hybrid%20Rules%2Bskills-blue)
+![Strictness](https://img.shields.io/badge/Strictness-High-red)
+![Agent Version](https://img.shields.io/badge/Agent_System-v1.0.0-blue)
+![Odoo Version](https://img.shields.io/badge/Odoo-14.0-purple)
 
-The main Odoo Apps include an <a href="https://www.odoo.com/page/crm">Open Source CRM</a>,
-<a href="https://www.odoo.com/page/website-builder">Website Builder</a>,
-<a href="https://www.odoo.com/page/e-commerce">eCommerce</a>,
-<a href="https://www.odoo.com/page/warehouse">Warehouse Management</a>,
-<a href="https://www.odoo.com/page/project-management">Project Management</a>,
-<a href="https://www.odoo.com/page/accounting">Billing &amp; Accounting</a>,
-<a href="https://www.odoo.com/page/point-of-sale">Point of Sale</a>,
-<a href="https://www.odoo.com/page/employees">Human Resources</a>,
-<a href="https://www.odoo.com/page/lead-automation">Marketing</a>,
-<a href="https://www.odoo.com/page/manufacturing">Manufacturing</a>,
-<a href="https://www.odoo.com/#apps">...</a>
+## 📖 Overview
 
-Odoo Apps can be used as stand-alone applications, but they also integrate seamlessly so you get
-a full-featured <a href="https://www.odoo.com">Open Source ERP</a> when you install several Apps.
+This repository is not just a collection of Odoo code. It is the workspace for an advanced **AI Agent System** designed to teach Odoo development with Senior-level strictness.
 
+It replaces traditional "Chatbot Tutorials" with a structured, rigorous workflow:
+1.  **Planner Agent**: Researchs specs, validates code, and designs high-fidelity lesson plans (0% hallucinations allowed).
+2.  **Trainer Agent**: Teaches strict source-code reading, context-first concepts, and enforces "100% Coverage".
 
-Getting started with Odoo
--------------------------
+## 🏗 System Architecture
 
-For a standard installation please follow the <a href="https://www.odoo.com/documentation/14.0/administration/install.html">Setup instructions</a>
-from the documentation.
+The system operates on three layers:
 
-To learn the software, we recommend the <a href="https://www.odoo.com/slides">Odoo eLearning</a>, or <a href="https://www.odoo.com/page/scale-up-business-game">Scale-up</a>, the <a href="https://www.odoo.com/page/scale-up-business-game">business game</a>. Developers can start with <a href="https://www.odoo.com/documentation/14.0/developer/howtos.html">the developer tutorials</a>
+```mermaid
+graph TD
+    User([User]) -->|/planner| Planner[Planner Skill]
+    User -->|/train| Trainer[Trainer Skill]
+
+    subgraph "Identity Layer (Rules)"
+        R1[Rules: Strict Planner]
+        R2[Rules: 100% Coverage Mentor]
+    end
+
+    subgraph "Execution Layer (Skills)"
+        Planner -->|Load Persona| R1
+        Planner -->|Research| S1[validate_spec.py]
+        Planner -->|Design| S2[validate_lesson.py]
+        
+        Trainer -->|Load Persona| R2
+        Trainer -->|Prep| KB[Knowledge Base Logic]
+        Trainer -->|Teach| Cycle[Teaching Cycle]
+    end
+
+    subgraph "Guardrails (Python Scripts)"
+        S1 -->|Fail| Alert[Stop & Ask User]
+        S2 -->|Fail| Retry[Refine Lesson]
+    end
+```
+
+### Key Components
+
+| Component | Responsibility | Magic Sauce 🌶️ |
+| :--- | :--- | :--- |
+| **Rules** (`.agent/rules`) | **Identity** | Defines the "Personality" (e.g., "I hate toy examples"). Injected on-demand. |
+| **Skills** (`.agent/skills`) | **Execution** | Defines the "How-To". Contains strict procedures (Steps 1, 2, 3). |
+| **Scripts** (`.agent/dist`) | **Guardrails** | Python scripts that *mathematically* prove if the AI is doing its job (e.g., counting lesson concepts). |
+
+## 🚀 Usage
+
+### 1. The Planner (`/planner`)
+Generates production-ready lesson plans.
+
+-   **Command**: `/planner create day [X]`
+-   **Workflow**:
+    1.  **Deviations Check**: Scans your code. If you added features not in the Spec, it STOPS and asks to Keep or Trash.
+    2.  **Research**: Reads `module_spec.md` and queries official docs (Context7).
+    3.  **Validation**: A Python script counts concepts/exercises. If too generic, it rejects the plan.
+
+### 2. The Trainer (`/train`)
+Your personal Senior Mentor.
+
+-   **Command**: `/train day [X]`
+-   **Workflow**:
+    1.  **Knowledge Lookup**: Checks local `references/` cache. If missing, queries Context7 and **saves new knowledge** for future use.
+    2.  **Source Code First**: Forces you to read `odoo/` source code line-by-line before teaching concepts.
+    3.  **100% Coverage**: Will not let you skip topics.
+
+## 📂 Repository Structure
+
+```
+.
+├── .agent/                 # The Brain 🧠
+│   ├── rules/              # Agent Personas (Identity)
+│   ├── skills/             # Agent Capabilities (Procedures + Scripts)
+│   ├── learning/           # Curriculum & Knowledge Base
+│   │   ├── daily_notes/    # Generated Lesson Plans
+│   │   ├── references/     # Cached Knowledge (Wiki)
+│   │   ├── module_spec.md  # The "Target" State
+│   │   └── actual_module.md# The "Current" State
+│   └── workflows/          # (Archived legacy workflows)
+├── custom_addons/          # The Odoo Code being built
+└── README.md               # You are here
+```
+
+## 🛡️ "Zero Hallucination" Mechanisms
+
+How we prevent the AI from lying:
+1.  **`validate_spec.py`**: Compares the English specification vs. Actual Python Code. Mismatches trigger a HALT.
+2.  **`validate_lesson.py`**: A regex-based script that grades the AI's lesson plan. If it's "lazy", the script fails pipeline.
+3.  **`prep_checklist.md`**: Forces the Trainer to call `view_file` on source code before speaking.
+
+## 🤝 Contribution
+
+This is a personal learning workspace, but the **Agent Architecture** is reusable.
+Feel free to copy `.agent/` folder to your own projects to enable this AI workflow.
+
+---
+*Powered by Agentic AI Engineering*
