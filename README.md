@@ -5,7 +5,7 @@
 
 ![Architecture](https://img.shields.io/badge/Architecture-Hybrid%20Rules%2Bskills-blue)
 ![Strictness](https://img.shields.io/badge/Strictness-High-red)
-![Agent Version](https://img.shields.io/badge/Agent_System-v1.0.0-blue)
+![Agent Version](https://img.shields.io/badge/Agent_System-v1.0.1-blue)
 ![Odoo Version](https://img.shields.io/badge/Odoo-14.0-purple)
 
 ## 📖 Overview
@@ -104,4 +104,4 @@ This is a personal learning workspace, but the **Agent Architecture** is reusabl
 Feel free to copy `.agent/` folder to your own projects to enable this AI workflow.
 
 ---
-*Powered by Agentic AI Engineering*
+*Created by NHPDev with Agentic AI Engineering*
