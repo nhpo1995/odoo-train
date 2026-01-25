@@ -1,7 +1,7 @@
 # 📍 Actual Module State
 
 > **Purpose**: Snapshot của code HIỆN TẠI. Trainer update cuối mỗi ngày.  
-> **Last Updated**: 2026-01-22 (After Day 7)
+> **Last Updated**: 2026-01-24 (After Day 8)
 
 ---
 
@@ -27,6 +27,10 @@
 | hours_remaining | Float(compute,store) | ✅ | hours_estimated - hours_spent |
 | progress | Float(compute,store,inverse) | ✅ | (hours_spent/hours_estimated)*100 |
 
+**Constraints:**
+- ✅ `_sql_constraints`: name_project_id_unique, hours_estimated_check, hours_spent_check
+- ✅ `@api.constrains`: _check_hours_on_done (hours_spent <= estimated), _check_due_date (future)
+
 **Methods:**
 - ✅ `_expand_states()` - Kanban columns
 - ✅ `_compute_is_overdue()` - @api.depends
@@ -37,6 +41,7 @@
 - ✅ `_search_is_overdue()` - search method for non-stored field
 - ✅ `create()` - Override with logging
 - ✅ `write()` - Override with validation
+- ✅ `unlink()` - Override to prevent deleting 'done' tasks
 - ✅ `action_mark_done()`, `action_delete()`, `action_admin_only()`
 - ✅ `action_mark_urgent()` - Add urgent tag
 - ✅ `action_remove_all_tags()` - Clear tags
@@ -70,8 +75,8 @@
 
 | Model | View | Status | Features |
 |-------|------|--------|----------|
-| task.task | Tree | ✅ | decorations, is_overdue highlighting, project_id column |
-| task.task | Form | ✅ | 2 columns, notebook, relational fields, tag widget |
+| task.task | Tree | ✅ | decorations, is_overdue, **clean_draft header btn** |
+| task.task | Form | ✅ | header/statusbar, 2 columns, notebook, relational fields |
 | task.task | Kanban | ✅ | color picker, dropdown, tags with t-foreach |
 | task.task | Search | ✅ | filters, group by project |
 | task.project | Tree | ✅ | basic |
@@ -141,3 +146,5 @@ task_management/
 | 2026-01-19 | After Day 5 | Planner | Initial snapshot |
 | 2026-01-20 | After Day 6 | Trainer | Added M2O, O2M, M2M to all models; task.tag model created; views updated |
 | 2026-01-22 | After Day 7 | Trainer | Added computed fields: hours_remaining, progress (with inverse), task_count; search method for is_overdue |
+| 2026-01-24 | After Day 8 | Planner | Added constraints (SQL & Python); Statusbar widget; Unlink protection |
+| 2026-01-24 | After Day 8 | Planner | Added constraints (SQL & Python); Statusbar widget; Unlink protection |

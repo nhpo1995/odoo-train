@@ -10,26 +10,34 @@
                 decoration-danger="(state=='draft' and priority=='high') or is_overdue"
                 decoration-bf="priority=='high'"
             >
-                <field name="is_overdue" invisible="1"/>
-                <field name="has_urgent_tags" invisible="1"/>
-                <field name="name"/>
-                <field name="state"/>
-                <field name="priority"/>
-                <field name="create_date" groups="base.group_user"/>
-                <field name="due_date"/>
-                <field name="tag_ids" widget="many2many_tags"/>
-                <field name="hours_remaining" decoration-danger="hours_remaining &lt; 0"/>
-                <field name="project_id"/>
-                <button name="action_mark_done" 
-                        type="object" 
-                        string="Mark Done"
-                        icon="fa-check"
-                        attrs="{'invisible': [('state', '=', 'done')]}"/>
+                <header>
+                    <button name='action_clean_draft'
+                        string='Clean Draft'
+                        type='object'
+                        class='btn-secondary'
+                        confirm='Are you sure you want to clean outdated draft tasks?'
+                    />
+                </header>
+                <field name="is_overdue" invisible="1" />
+                <field name="has_urgent_tags" invisible="1" />
+                <field name="name" />
+                <field name="state" />
+                <field name="priority" />
+                <field name="create_date" groups="base.group_user" />
+                <field name="due_date" />
+                <field name="tag_ids" widget="many2many_tags" />
+                <field name="hours_remaining" decoration-danger="hours_remaining &lt; 0" />
+                <field name="project_id" />
+                <button name="action_mark_done"
+                    type="object"
+                    string="Mark Done"
+                    icon="fa-check"
+                    attrs="{'invisible': [('state', '=', 'done')]}" />
                 <button name="action_mark_urgent"
-                        type="object"
-                        string="urgent"
-                        icon="fa-exclamation-circle"
-                        attrs="{'invisible': [('has_urgent_tags', '=', True)]}"/>
+                    type="object"
+                    string="urgent"
+                    icon="fa-exclamation-circle"
+                    attrs="{'invisible': [('has_urgent_tags', '=', True)]}" />
             </tree>
         </field>
 
@@ -42,51 +50,70 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"  clickable="1"/>
+                    <field name="state" widget="statusbar"
+                        statusbar_visible="draft,in_progress,done" clickable="1" />
                 </header>
                 <sheet>
+                    <field name="has_urgent_tags" invisible="1" nolable="1" />
                     <group col="4">
-                        <field name="name" placeholder="Task's name..."/>
+                        <field name="name" placeholder="Task's name..." />
                         <field name="project_id" />
                         <field name="assigned_user_id" />
-                        <field name="tag_ids" widget="many2many_tags"
-                        />                        
+                        <label for="tag_ids" />
+                        <div>
+                            <field name="tag_ids" widget="many2many_tags" />
+                            <span class="oe_edit_only">
+                                <button name="action_mark_urgent"
+                                    type="object"
+                                    string="urgent"
+                                    icon="fa-exclamation-circle"
+                                    attrs="{'invisible': [('has_urgent_tags', '=', True)]}" />
+                                <button name="action_remove_all_tags"
+                                    string="Clear all tags"
+                                    type="object"
+                                    icon="fa-trash"
+                                    class="btn-link text-danger" style="margin-left: 5px;"
+                                />
+                            </span>
+                        </div>
                     </group>
 
                     <group>
                         <group>
-                            <field name="hours_estimated" 
-                                    placeholder="0000.00h"
-                                    widget="float_time"
-                                    help="Total hours that you think you will spent on this task"/>
+                            <field name="hours_estimated"
+                                placeholder="0000.00h"
+                                widget="float_time"
+                                help="Total hours that you think you will spent on this task" />
                             <field name="due_date" />
-                            <field name="hours_remaining" readonly="1" attrs="{'invisible': [('id', '=', False)]}"/>
+                            <field name="hours_remaining" readonly="1"
+                                attrs="{'invisible': [('id', '=', False)]}" />
                         </group>
                         <group>
-                            <field name="id" invisible="1"/>
+                            <field name="id" invisible="1" />
                             <field name="priority" />
-                            <field name="hours_spent" 
-                                    placeholder="0000.00h"
-                                    widget="float_time"
-                                    help="Total hours that you actually spent"
-                                    attrs="{'invisible': [('id', '=', False)]}"/>
-                            <field name="create_date" 
-                                    readonly="1"
-                                    groups="base.group_system"
-                                    attrs="{'invisible': [('id', '=', False)]}"/>
+                            <field name="hours_spent"
+                                placeholder="0000.00h"
+                                widget="float_time"
+                                help="Total hours that you actually spent"
+                                attrs="{'invisible': [('id', '=', False)]}" />
+                            <field name="create_date"
+                                readonly="1"
+                                groups="base.group_system"
+                                attrs="{'invisible': [('id', '=', False)]}" />
                         </group>
                     </group>
 
                     <group>
                         <notebook>
                             <page string="Description" name="Description">
-                                <field name="description" placeholder="Your descriptions..."/>
+                                <field name="description" placeholder="Your descriptions..." />
                             </page>
                             <page name="Others" string="Extra Info">
                                 <group>
-                                    <field name="write_date" readonly="1" string="Last modify"/>
-                                    <field name="write_uid" readonly="1" string="Modify person"/>
-                                    <field name="progress" widget="progressbar" attrs="{'invisible': [('id','=',False)]}" />
+                                    <field name="write_date" readonly="1" string="Last modify" />
+                                    <field name="write_uid" readonly="1" string="Modify person" />
+                                    <field name="progress" widget="progressbar"
+                                        attrs="{'invisible': [('id','=',False)]}" />
                                 </group>
                             </page>
                         </notebook>
@@ -106,65 +133,66 @@
                 <field name="name" />
                 <field name="description" />
                 <field name="name" string="Task"
-                        filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]"/>
+                    filter_domain="['|', ('name', 'ilike', self), ('description', 'ilike', self)]" />
                 <!-- Filter domain -->
                 <filter name="filter_draft"
-                        string="Draft"
-                        domain="[('state', '=', 'draft')]"/>
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]" />
                 <filter name="filter_in_progress"
-                        string="In Progress"
-                        domain="[('state', '=', 'in_progress')]"/>
+                    string="In Progress"
+                    domain="[('state', '=', 'in_progress')]" />
                 <filter name="filter_done"
-                        string="Done"
-                        domain="[('state', '=', 'done')]"/>
+                    string="Done"
+                    domain="[('state', '=', 'done')]" />
                 <filter name="filter_high_priority"
-                        string="High Priority"
-                        domain="[('priority', '=', 'high')]"/>
-                <separator/>
+                    string="High Priority"
+                    domain="[('priority', '=', 'high')]" />
+                <separator />
                 <filter name="filter_active_task"
-                        string="Active Tasks"
-                        domain="[('state', 'in', ['draft', 'in_progress'])]"/>
+                    string="Active Tasks"
+                    domain="[('state', 'in', ['draft', 'in_progress'])]" />
                 <filter name="filter_overdue"
-                        string="Overdue"
-                        domain="[('is_overdue', '=', True)]"/>
+                    string="Overdue"
+                    domain="[('is_overdue', '=', True)]" />
                 <!-- Group by -->
-                 <group string="Group By">
+                <group string="Group By">
                     <filter name="group_state"
-                            string="State"
-                            context="{'group_by': 'state'}"/>
+                        string="State"
+                        context="{'group_by': 'state'}" />
                     <filter name="group_priority"
-                            string="Priority"
-                            context="{'group_by':'priority'}"/>
-                    <separator/>
+                        string="Priority"
+                        context="{'group_by':'priority'}" />
+                    <separator />
                     <filter name="group_task_tag"
-                            string=""/>
+                        string="" />
                     <filter name="group_create_date"
-                            string="Creation Date"
-                            context="{'group_by':'create_date:month'}"/>        
-                 </group>
+                        string="Creation Date"
+                        context="{'group_by':'create_date:month'}" />
+                </group>
             </search>
         </field>
     </record>
 
-        <!-- Kanban view -->
+    <!-- Kanban view -->
     <record id="task_task_view_kanban" model="ir.ui.view">
         <field name="name">task.task.view.kanban</field>
         <field name="model">task.task</field>
         <field name="arch" type="xml">
             <kanban default_group_by="state">
                 <!-- Declare fields -->
-                 <field name="id" />
-                <field name="name"/>
-                <field name="state"/>
-                <field name="priority"/>
+                <field name="id" />
+                <field name="name" />
+                <field name="state" />
+                <field name="priority" />
                 <field name="due_date" />
                 <field name="color" />
                 <field name="tag_ids" />
 
                 <!-- Qweb tempate -->
-                 <templates>
+                <templates>
                     <t t-name="kanban-box">
-                        <div t-attf-class="oe_kanban_global_click
+                        <div
+                            t-attf-class="oe_kanban_global_click
                                             oe_kanban_card
                                             oe_kanban_record
                                             oe_kanban_color_{{record.color.raw_value}}">
@@ -181,37 +209,38 @@
                                         data-toggle="dropdown"
                                         href="#"
                                         aria-label="Dropdown menu">
-                                        <span class="fa fa-ellipsis-v"/>
+                                        <span class="fa fa-ellipsis-v" />
                                     </a>
                                     <div class="dropdown-menu" role="menu">
                                         <a role="menuitem" type="edit" class="dropdown-item">Edit</a>
-                                        <a role="menuitem" type="delete" class="dropdown-item">Delete</a>
-                                        <ul class="oe_kanban_colorpicker" data-field="color"/>
+                                        <a role="menuitem" type="delete" class="dropdown-item">
+                                            Delete</a>
+                                        <ul class="oe_kanban_colorpicker" data-field="color" />
                                     </div>
                                 </div>
                             </div>
                             <!-- Mid -->
                             <div class="o_kanban_record_body text-muted">
                                 <span t-if="record.due_date.raw_value" class="o_kanban_inline_block">
-                                    <i class="fa fa-clock-o" title="Deadline"/>
+                                    <i class="fa fa-clock-o" title="Deadline" />
                                     <field name="due_date" />
                                 </span>
                                 <div class="oe_kanban_bottom_left">
-                                    <field name="priority" widget="priority"/>
+                                    <field name="priority" widget="priority" />
                                 </div>
                             </div>
                             <!-- Bot -->
                             <div class="o_kanban_record_bottom mt-2">
                                 <div class="oe_kanban_bottom_left">
-                                    <field name="tag_ids" widget="many2many_tags"/>
+                                    <field name="tag_ids" widget="many2many_tags" />
                                 </div>
                                 <div class="oe_kanban_bottom_right">
-                                    <field name="state" widget="label_selection"/>
+                                    <field name="state" widget="label_selection" />
                                 </div>
                             </div>
                         </div>
                     </t>
-                 </templates>
+                </templates>
             </kanban>
         </field>
     </record>
@@ -230,6 +259,6 @@
     </record>
 
     <!-- Menus -->
-    <menuitem id="menu_task_root" name="Task Management"/>
-    <menuitem id="menu_task_task" name="Task" parent="menu_task_root" action="action_task_task"/>
+    <menuitem id="menu_task_root" name="Task Management" />
+    <menuitem id="menu_task_task" name="Task" parent="menu_task_root" action="action_task_task" />
 </odoo>

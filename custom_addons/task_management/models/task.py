@@ -1,10 +1,10 @@
-from datetime import datetime
-from odoo import models, fields, api
-from odoo.exceptions import UserError, ValidationError
-from typing import Optional
 import logging
-from loguru import logger
+import re
+from datetime import datetime, timedelta
+from typing import Optional
 
+from odoo import api, fields, models
+from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_compare
 
 _logger = logging.getLogger(__name__)
@@ -40,6 +40,9 @@ class Task(models.Model):
             ("high", "High"),
         ],
     )
+    
+
+    
     due_date = fields.Datetime(string="Due Date", help="Task deadline")
     hours_estimated = fields.Float(string="Estimated Hours", digits=(6, 2))
     hours_spent = fields.Float(string="Hour Spent", digits=(6, 2))
@@ -118,7 +121,7 @@ class Task(models.Model):
 
     @api.constrains("due_date")
     def _check_due_date(self):
-        now = fields.Datetime.now()
+        now: datetime = fields.Datetime.now()
         for rec in self:
             if rec.due_date and rec.due_date < now:
                 raise ValidationError(
@@ -158,7 +161,10 @@ class Task(models.Model):
     @api.depends("tag_ids", "tag_ids.name")
     def _compute_has_urgent_tag(self):
         for rec in self:
-            rec.has_urgent_tags = "urgent" in rec.tag_ids.mapped("name")
+            if rec.tag_ids and hasattr(rec.tag_ids, "mapped"):
+                rec.has_urgent_tags = "urgent" in rec.tag_ids.mapped("name")
+            else:
+                rec.has_urgent_tags = False
 
     @api.depends("due_date", "state")
     def _compute_is_overdue(self):
@@ -197,7 +203,26 @@ class Task(models.Model):
             if rec.state == "done":
                 raise UserError("Cannot delete a done task!")
         return super().unlink()
-
+    
+    def copy(self, default=None):
+        default = dict(default or {})
+        if "name" not in default:
+            name = self.name
+            if name:
+                match = re.search(r" \(copy( \d+)?\)$", name)
+                if match:
+                    name = name[:match.start()]
+                new_name = f"{name} (copy)"
+                copy_count = 1
+                while self.search_count([
+                    ("name", "=", new_name),
+                    ("project_id", "=", self.project_id.id), #type: ignore
+                ]) > 0:
+                    new_name = f"{name} (copy {copy_count})"
+                    copy_count += 1
+                default["name"] = new_name
+        return super().copy(default)
+    
     def action_mark_done(self):
         """Mark tasks as done."""
         self.write({"state": "done"})
@@ -214,10 +239,32 @@ class Task(models.Model):
 
     def action_mark_urgent(self):
         """Button: Add urgent tag to task"""
-        urgent_tag = self.env["task.tag"].search([("name", "=", "urgent")], limit=1)
+        urgent_tag = self.env["task.tag"].search([("name", "=", "urgent")], limit=1) # type: ignore
         if not urgent_tag:
-            urgent_tag = self.env["task.tag"].create({"name": "urgent", "color": 1})
+            urgent_tag = self.env["task.tag"].create({"name": "urgent", "color": 1}) # type: ignore
         self.write({"tag_ids": [(4, urgent_tag.id, 0)]})
 
     def action_remove_all_tags(self):
         self.write({"tag_ids": [(5, 0, 0)]})
+
+    def action_clean_draft(self):
+        #1. Tìm batch (tối ưu query)
+        time_limit = fields.Datetime.now() - timedelta(days=7)
+        draft_tasks = self.search([('state', '=', 'draft'),('create_date', '<', time_limit),])
+        #2. Xóa batch (1 lệnh DELETE duy nhất cho N records)
+        draft_tasks.unlink()
+        #3. Return action reload (Client Action)
+        return {
+            "type": "ir.actions.client",
+            "tag" : "display_notification",
+            "params": {
+                "title": "Success",
+                "message": f"Deleted {len(draft_tasks)} tasks successfully!",
+                "type": "success",
+                "sticky": False,
+                "next": {
+                    "type": "ir.actions.client",
+                    "tag": "reload"
+                }
+            }
+        }

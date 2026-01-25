@@ -1,0 +1,23 @@
+{
+    "include": [
+        "custom_addons",
+        "odoo"
+    ],
+    "exclude": [
+        "**/__pycache__"
+    ],
+    "extraPaths": [
+        "odoo",
+        "odoo/addons",
+        "custom_addons"
+    ],
+    "reportMissingImports": "warning",
+    "reportAttributeAccessIssue": "none",
+    "reportMissingTypeStubs": false,
+    "reportUnknownMemberType": "none",
+    "reportUnknownVariableType": "none",
+    "reportUnknownArgumentType": "none",
+    "pythonVersion": "3.8",
+    "typeCheckingMode": "basic",
+    "useLibraryCodeForTypes": true
+}

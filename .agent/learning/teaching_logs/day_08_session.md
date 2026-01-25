@@ -1,6 +1,6 @@
 # 📋 DAY 8 - Teaching Plan: Constraints & Data Integrity
 
-> **Generated**: 2026-01-22 | **Status**: 🟡 In Progress
+> **Generated**: 2026-01-22 | **Status**: ✅ Completed
 
 ---
 
@@ -20,79 +20,79 @@
 ## ✅ Source Code Reading Checklist
 
 ### File 1: `odoo/api.py` - @api.constrains
-- [ ] Explain decorator purpose (L103-133)
-- [ ] Show warning about dotted fields
-- [ ] Explain trigger mechanics (create/write)
-- [ ] User confirms understanding
+- [x] Explain decorator purpose (L103-133)
+- [x] Show warning about dotted fields
+- [x] Explain trigger mechanics (create/write)
+- [x] User confirms understanding
 
 ### File 2: `odoo/models.py` - _sql_constraints
-- [ ] Show attribute definition (L343-344)
-- [ ] Explain tuple format: (name, sql_def, message)
-- [ ] User confirms understanding
+- [x] Show attribute definition (L343-344)
+- [x] Explain tuple format: (name, sql_def, message)
+- [x] User confirms understanding
 
 ### File 3: `odoo/models.py` - _add_sql_constraints
-- [ ] Show method logic (L2652-2677)
-- [ ] Explain how constraints applied to DB
-- [ ] User confirms understanding
+- [x] Show method logic (L2652-2677)
+- [x] Explain how constraints applied to DB
+- [x] User confirms understanding
 
 ### File 4: `odoo/exceptions.py` - ValidationError
-- [ ] Show exception class (L114-120)
-- [ ] Compare with UserError
-- [ ] User confirms understanding
+- [x] Show exception class (L114-120)
+- [x] Compare with UserError
+- [x] User confirms understanding
 
 ### File 5: `res_users.py` - @api.constrains examples
-- [ ] Show _check_company (L462-465)
-- [ ] Show _check_action_id (L467-471)
-- [ ] User confirms understanding
+- [x] Show _check_company (L462-465)
+- [x] Show _check_action_id (L467-471)
+- [x] User confirms understanding
 
 ### File 6: `ir_actions.py` - unlink pattern
-- [ ] Show unlink override (L59-67)
-- [ ] Explain deletion protection
-- [ ] User confirms understanding
+- [x] Show unlink override (L59-67)
+- [x] Explain deletion protection
+- [x] User confirms understanding
 
 ### File 7: `ir_actions_views.xml` - statusbar widget
-- [ ] Show widget usage (L428)
-- [ ] Explain statusbar_visible attribute
-- [ ] User confirms understanding
+- [x] Show widget usage (L428)
+- [x] Explain statusbar_visible attribute
+- [x] User confirms understanding
 
 ---
 
 ## ✅ Concepts Checklist (12 total)
 
-- [ ] 1. Data Integrity Layers (SQL vs Python)
-- [ ] 2. _sql_constraints Structure & Naming
-- [ ] 3. SQL Unique Composite (name + project)
-- [ ] 4. SQL CHECK Constraints for Ranges
-- [ ] 5. @api.constrains Trigger Mechanics
-- [ ] 6. ValidationError vs UserError vs IntegrityError
-- [ ] 7. Float Precision Gotcha
-- [ ] 8. Date/Datetime Validation
-- [ ] 9. Constraint Performance on Recordsets
-- [ ] 10. Delete Protection (unlink override)
-- [ ] 11. Statusbar Widget for State
-- [ ] 12. Testing & Upgrade Constraints
+- [x] 1. Data Integrity Layers (SQL vs Python)
+- [x] 2. _sql_constraints Structure & Naming
+- [x] 3. SQL Unique Composite (name + project)
+- [x] 4. SQL CHECK Constraints for Ranges
+- [x] 5. @api.constrains Trigger Mechanics
+- [x] 6. ValidationError vs UserError vs IntegrityError
+- [x] 7. Float Precision Gotcha
+- [x] 8. Date/Datetime Validation
+- [x] 9. Constraint Performance on Recordsets
+- [x] 10. Delete Protection (unlink override)
+- [x] 11. Statusbar Widget for State
+- [x] 12. Testing & Upgrade Constraints
 
 ---
 
 ## ✅ Exercises Checklist (6 total)
 
-- [ ] Exercise 1: SQL Constraint - Unique Task Name per Project
+- [x] Exercise 1: SQL Constraint - Unique Task Name per Project
   - Add _sql_constraints with unique(name, project_id)
   - Test: Create duplicate → error
 
-- [ ] Exercise 2: SQL CHECK - Non-negative Hours
+- [x] Exercise 2: SQL CHECK - Non-negative Hours
   - Add CHECK constraint for hours_estimated >= 0
   - Test: Enter negative → error
 
-- [ ] Exercise 3: Python Constraint - Due Date & Float Safety
+- [x] Exercise 3: Python Constraint - Due Date & Float Safety
   - @api.constrains with float_compare
   - Test: Past due_date → error
 
-- [ ] Exercise 4: Protect Data - Prevent Deleting "Done" Tasks
+- [x] Exercise 4: Protect Data - Prevent Deleting "Done" Tasks
   - Override unlink() with state check
   - Test: Delete done task → UserError
 
-- [ ] Exercise 5: Statusbar UI for Task State
+- [x] Exercise 5: Statusbar UI for Task State
   - Add widget="statusbar" to form view
   - Test: Visual confirmation
 
@@ -123,10 +123,10 @@
 
 | Section | Status | Notes |
 |---------|--------|-------|
-| Source Code Reading | ⏳ | 0/7 |
-| Concepts | ⏳ | 0/12 |
-| Exercises | ⏳ | 0/6 |
-| Questions | ⏳ | 0/9 |
+| Source Code Reading | ✅ | 7/7 |
+| Concepts | ✅ | 12/12 |
+| Exercises | ✅ | 6/6 (Ex 6 manual drill done during review) |
+| Questions | ✅ | 9/9 |
 
 ---
 
@@ -134,20 +134,24 @@
 
 | Block | Score (/10) | Notes |
 |-------|-------------|-------|
-| Source code reading | _ | |
-| Theory | _ | |
-| Practice | _ | |
-| Questions | _ | |
-| **TOTAL** | **_/10** | |
+| Source code reading | 10 | Excellent understanding |
+| Theory | 10 | Deep dive into triggers |
+| Practice | 10 | Code is clean & working |
+| Questions | 10 | Critical thinking demonstrated |
+| **TOTAL** | **10/10** | **Perfect!**
 
 ### Key Takeaways
-> _
+> - **SQL vs Python Constraints**: Distinct use cases (Integrity vs Logic).
+> - **Implicit Trigger**: Stored computed fields trigger `write`, thus trigger constraints.
+> - **Float Precision**: `float_compare` is non-negotiable.
 
-### Areas to Improve
-> _
+### Improvement Areas
+> - **Scope Control**: Avoid asking out-of-scope questions (e.g., `@api.ondelete`).
+> - **Trigger Mechanics**: Ensure clarity on `create` vs `write` context for constraints.
 
-### Notes for Day 9
-> _
+### Next Session Notes
+> - **Day 9 Prep**: Focus on `onchange` (UI) vs `depends` (Data).
+> - **New Concept**: Translating TransientModel (Wizards).
 
 ---
 

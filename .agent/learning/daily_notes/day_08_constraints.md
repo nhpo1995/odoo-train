@@ -394,17 +394,22 @@ Duplicate data trước upgrade sẽ gây crash; cần cleanup trước.
 ### 5.1 Kết quả học tập
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Source code reading | _ | |
-| Lý thuyết | _ | |
-| Thực hành | _ | |
-| Kiểm tra | _ | |
-| **TỔNG** | **_/10** | |
+| Source code reading | 10 | Completed thoroughly |
+| Lý thuyết | 10 | Mastered 12/12 concepts |
+| Thực hành | 10 | Completed 5/5 exercises |
+| Kiểm tra | 10 | 9/9 Correct answers |
+| **TỔNG** | **10/10** | **Excellent!**
 
 ### 5.2 Key takeaways
-> _
+> - Phân biệt rõ SQL vs Python constraints (DB level vs Application level).
+> - Float comparison bắt buộc dùng `float_compare` để tránh precision error.
+> - `write()` implicit call triggered bởi stored computed fields là mekanism quan trọng.
+> - `unlink()` protection logic đơn giản nhưng hiệu quả.
 
 ### 5.3 Điểm cần cải thiện
-> _
+> - Cần review kỹ scope bài học (ví dụ: `@api.ondelete` chưa học mà Mentor hỏi nhầm).
+> - Lưu ý kỹ sự khác biệt giữa `create` (vals) và `write` (self + vals) khi trigger constraints.
 
 ### 5.4 Lưu ý cho Day 9
-> _
+> - Day 9 sẽ học về **Onchange** (UI interaction) vs **Computed** (Data logic). Cần phân biệt rõ.
+> - Chuẩn bị tinh thần cho **Wizards** (TransientModel) - data tạm thời, tự xóa.

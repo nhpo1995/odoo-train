@@ -70,7 +70,8 @@
 **Chi tiết Phase 2:**
 - Day 6: 9.0/10 ✅ (+ Bonus: Deadlock, Recursion)
 - Day 7: 8.5/10 ✅ (Computed fields, inverse, search, read_group)
-- Day 8: _/10 ⏳ (pending eval)
+- [x] Day 8: 10/10 ✅ (Constraints, Protection, Statusbar)
+- Day 9: _/10 ⏳ (Onchange, Wizards)
 
 ---
 
@@ -558,11 +559,19 @@ Tạo computed fields cho `task.task` và `task.project` - tự động tính to
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Đọc source (2h) | _ | |
-| Viết code (2h) | _ | |
-| Shell/Debug (2h) | _ | |
-| Tổng kết (1h) | _ | |
-| **TỔNG NGÀY 8** | **_/10** | |
+| Đọc source (2h) | 10 | Đọc constraint/protection methods kỹ lưỡng |
+| Viết code (2h) | 10 | 5/5 exercises (SQL + Python constraints, Unlink) |
+| Shell/Debug (2h) | 10 | Fix float comparison debug issues |
+| Tổng kết (1h) | 10 | 9/9 questions correct (1 correction for Mentor) |
+| **TỔNG NGÀY 8** | **10/10** | ✅ Excellent! |
+
+### 📌 Ghi chú AI
+> **Key takeaways Day 8:**
+> - SQL Constraints (`_sql_constraints`) = DB integrity (Unique, Check)
+> - Python Constraints (`@api.constrains`) = Application logic (Cross-field)
+> - `float_compare` > `==` for floats
+> - Implicit write by Stored Computed fields triggers constraints
+> - Protection: `unlink()` override > `@api.ondelete` (complex cases)
 
 ### ❓ Câu hỏi kiểm tra
 1. **Concept**: Khi nào dùng Python constraint vs SQL constraint? Cho 2 ví dụ.
