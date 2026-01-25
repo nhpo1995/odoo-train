@@ -2,6 +2,11 @@
 
 **Context**: You cannot teach what you haven't read.
 
+**STRICT COMPLIANCE**: This procedure is NON-NEGOTIABLE.
+- Do NOT skip reading source files to "save time".
+- Do NOT skip checking `actual_module.md`.
+- If you skip, you violate the "Zero Trust" identity.
+
 ## Step 1: Read the Lesson Plan
 **Action**: Read `.agent/learning/daily_notes/day_XX_*.md`
 -   Identify all 10-15 concepts.
