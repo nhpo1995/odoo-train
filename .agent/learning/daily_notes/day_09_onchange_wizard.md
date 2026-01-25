@@ -72,89 +72,89 @@ By end of day, learner will be able to:
 
 ---
 
-## 📚 PHẦN 1: NỘI DUNG BÀI HỌC
+## Section 1: NỘI DUNG BÀI HỌC
 
 ### 1.1 Lý thuyết cần dạy
 
 #### 🟢 Core Concepts (Basic - Must know)
 
-- [ ] **Concept 1: @api.onchange**
-  - **Core explanation**: Decorator triggers ONLY when user changes a field in the Form View. It does NOT trigger on `create` or `write` from code (unless explicitly called). Used for UI assistance (auto-fill, dynamic domains).
-  - **Syntax/Usage**:
-    ```python
-    @api.onchange('project_id')
-    def _onchange_project_id(self):
-        if self.project_id:
-            self.assigned_user_id = self.project_id.manager_id
-    ```
-  - **When to use**: Auto-filling default values based on other fields, or strictly UI-side logic.
-  - **Comparison**: `Computed` fields are for data logic (always consistent). `Onchange` is for UI convenience (user can change it later).
+1. **Concept 1: @api.onchange**
+   - **Core explanation**: Decorator triggers ONLY when user changes a field in the Form View. It does NOT trigger on `create` or `write` from code (unless explicitly called). Used for UI assistance (auto-fill, dynamic domains).
+   - **Syntax/Usage**:
+     ```python
+     @api.onchange('project_id')
+     def _onchange_project_id(self):
+         if self.project_id:
+             self.assigned_user_id = self.project_id.manager_id
+     ```
+   - **When to use**: Auto-filling default values based on other fields, or strictly UI-side logic.
+   - **Comparison**: `Computed` fields are for data logic (always consistent). `Onchange` is for UI convenience (user can change it later).
 
-- [ ] **Concept 2: Onchange Warning & Domain**
-  - **Core explanation**: Onchange can return a dictionary to show a popup warning or set a dynamic domain for another field temporarily.
-  - **Syntax**:
-    ```python
-    return {
-        'warning': {'title': "Warning", 'message': "..."}
-        # OR 'domain': {'other_field': [('id', 'in', [...])]}
-    }
-    ```
+2. **Concept 2: Onchange Warning & Domain**
+   - **Core explanation**: Onchange can return a dictionary to show a popup warning or set a dynamic domain for another field temporarily.
+   - **Syntax**:
+     ```python
+     return {
+         'warning': {'title': "Warning", 'message': "..."}
+         # OR 'domain': {'other_field': [('id', 'in', [...])]}
+     }
+     ```
 
-- [ ] **Concept 3: TransientModel**
-  - **Core explanation**: A model based on `models.TransientModel` (not `Model`). Data is temporary and periodically cleaned up by Odoo (system vacuum). No access rules needed (user sees own records).
-  - **When to use**: Wizards, Dialogs, Report configuration popups.
-  - **Gotcha**: Do not relate TransientModel to persistent Model via Many2one from Model side (M2O on Transient pointing to Model is OK).
+3. **Concept 3: TransientModel**
+   - **Core explanation**: A model based on `models.TransientModel` (not `Model`). Data is temporary and periodically cleaned up by Odoo (system vacuum). No access rules needed (user sees own records).
+   - **When to use**: Wizards, Dialogs, Report configuration popups.
+   - **Gotcha**: Do not relate TransientModel to persistent Model via Many2one from Model side (M2O on Transient pointing to Model is OK).
 
-- [ ] **Concept 4: Wizard Action (target='new')**
-  - **Core explanation**: An `ir.actions.act_window` with `target="new"` opens the view in a modal dialog (popup) instead of the main screen.
-  - **Usage**:
-    ```xml
-    <field name="target">new</field>
-    <field name="view_mode">form</field>
-    ```
+4. **Concept 4: Wizard Action (target='new')**
+   - **Core explanation**: An `ir.actions.act_window` with `target="new"` opens the view in a modal dialog (popup) instead of the main screen.
+   - **Usage**:
+     ```xml
+     <field name="target">new</field>
+     <field name="view_mode">form</field>
+     ```
 
-- [ ] **Concept 5: Context & active_ids**
-  - **Core explanation**: When an action is triggered from a list view selection, Odoo passes the selected record IDs in `self.env.context['active_ids']`.
-  - **When to use**: In Wizard's `default_get` or action methods to know which records to process.
+5. **Concept 5: Context & active_ids**
+   - **Core explanation**: When an action is triggered from a list view selection, Odoo passes the selected record IDs in `self.env.context['active_ids']`.
+   - **When to use**: In Wizard's `default_get` or action methods to know which records to process.
 
-- [ ] **Concept 6: Binding Actions (binding_model_id)**
-  - **Core explanation**: To make an Action appear in the "Action" gear menu (formerly "Print/Action" sidebar), use `binding_model_id`.
-  - **Syntax**:
-    ```xml
-    <field name="binding_model_id" ref="model_task_task"/>
-    ```
+6. **Concept 6: Binding Actions (binding_model_id)**
+   - **Core explanation**: To make an Action appear in the "Action" gear menu (formerly "Print/Action" sidebar), use `binding_model_id`.
+   - **Syntax**:
+     ```xml
+     <field name="binding_model_id" ref="model_task_task"/>
+     ```
 
 #### 🟡 Advanced Topics (Nice to have)
 
-- [ ] **Advanced 1: read_group vs Loop**
-  - **Deep dive**: Aggregating data (Sum, Count, Avg) over many records. Looping `for rec in self` triggers N queries or loads all data to memory (slow). `read_group` runs 1 SQL `GROUP BY` query.
-  - **Example**:
-    ```python
-    # BAD
-    total = sum(task.amount for task in self.task_ids)
-    
-    # GOOD (1 SQL query)
-    data = self.env['task.task'].read_group(
-        [('project_id', 'in', self.ids)], 
-        ['amount:sum', 'project_id'], 
-        ['project_id']
-    )
-    ```
-  - **Performance**: O(1) database query vs O(N) Python loop. Crucial for reporting.
+7. **Concept 7: Advanced read_group vs Loop**
+   - **Deep dive**: Aggregating data (Sum, Count, Avg) over many records. Looping `for rec in self` triggers N queries or loads all data to memory (slow). `read_group` runs 1 SQL `GROUP BY` query.
+   - **Example**:
+     ```python
+     # BAD
+     total = sum(task.amount for task in self.task_ids)
+     
+     # GOOD (1 SQL query)
+     data = self.env['task.task'].read_group(
+         [('project_id', 'in', self.ids)], 
+         ['amount:sum', 'project_id'], 
+         ['project_id']
+     )
+     ```
+   - **Performance**: O(1) database query vs O(N) Python loop. Crucial for reporting.
 
 #### ⚠️ Gotchas & Common Mistakes (Critical)
 
-- **Mistake 1: Relying on Onchange for Data Integrity**
-  - ❌ Wrong: Using onchange to validate data or set critical values.
-  - Why: If you import data via CSV or create via code `env['model'].create({...})`, **onchange does NOT run**. Use Constraints or Computed fields for integrity.
+8. **Concept 8: Relying on Onchange for Data Integrity**
+   - ❌ Wrong: Using onchange to validate data or set critical values.
+   - Why: If you import data via CSV or create via code `env['model'].create({...})`, **onchange does NOT run**. Use Constraints or Computed fields for integrity.
 
-- **Mistake 2: TransientModel Relations**
-  - ❌ Wrong: `task.task` has `One2many` to `task.wizard`.
-  - Why: Persistent models cannot point to Transient models (DB constraint issues when transient data is deleted). Transient can point to Persistent (Many2one).
+9. **Concept 9: TransientModel Relations**
+   - ❌ Wrong: `task.task` has `One2many` to `task.wizard`.
+   - Why: Persistent models cannot point to Transient models (DB constraint issues when transient data is deleted). Transient can point to Persistent (Many2one).
 
-- **Mistake 3: Wizard Record Persistence**
-  - ❌ Wrong: Expecting wizard data to stay forever.
-  - Why: Odoo vacuum cron job deletes them automatically (usually every 24h or based on config).
+10. **Concept 10: Wizard Record Persistence**
+   - ❌ Wrong: Expecting wizard data to stay forever.
+   - Why: Odoo vacuum cron job deletes them automatically (usually every 24h or based on config).
 
 ### 1.2 Source code cần đọc
 
@@ -195,11 +195,11 @@ Key insights:
 
 ---
 
-## 💻 PHẦN 2: THỰC HÀNH
+## Section 2: THỰC HÀNH
 
 ### 2.1 Bài tập code
 
-**Exercise 1: Basic Onchange - UX Improvement**
+### Exercise 1: Basic Onchange - UX Improvement
 
 **Scenario**: When a user selects a Project for a Task, the "Assigned To" field should automatically default to that Project's Manager to save time.
 
@@ -213,7 +213,7 @@ Key insights:
 
 ---
 
-**Exercise 2: Onchange Warning - Data Validation UI**
+### Exercise 2: Onchange Warning - Data Validation UI
 
 **Scenario**: Warn the user if they select a Project that has no Manager assigned (potential process issue).
 
@@ -227,7 +227,7 @@ Key insights:
 
 ---
 
-**Exercise 3: Financial Fields (Preparation for Read Group)**
+### Exercise 3: Financial Fields (Preparation for Read Group)
 
 **Scenario**: We need to track the financial value of tasks.
 
@@ -242,7 +242,7 @@ Key insights:
 
 ---
 
-**Exercise 4: The Bulk Update Wizard (Model)**
+### Exercise 4: The Bulk Update Wizard (Model)
 
 **Scenario**: Managers need to move 50 tasks to "Done" at once. Doing it one by one is painful.
 
@@ -257,7 +257,7 @@ Key insights:
 
 ---
 
-**Exercise 5: Wizard View & Binding Action**
+### Exercise 5: Wizard View & Binding Action
 
 **Requirements**:
 1. Create a Form View for the wizard (simple group with `new_state`).
@@ -309,7 +309,7 @@ self.env['task.task'].read_group([], ['amount:sum'], ['project_id'])
 
 ---
 
-## ❓ PHẦN 3: KIỂM TRA KIẾN THỨC
+## Section 3: KIỂM TRA KIẾN THỨC
 
 ### 3.1 Câu hỏi self-check
 

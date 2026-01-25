@@ -75,7 +75,7 @@ By end of day, learner will be able to:
 
 ---
 
-## 📚 PHẦN 1: NỘI DUNG BÀI HỌC
+## Section 1: NỘI DUNG BÀI HỌC
 
 ### 1.1 Lý thuyết cần dạy
 
@@ -173,7 +173,7 @@ Key insights:
 
 ---
 
-## 💻 PHẦN 2: THỰC HÀNH
+## Section 2: THỰC HÀNH
 
 ### 2.1 Bài tập code
 
@@ -315,7 +315,7 @@ REQUIREMENTS:
 
 ---
 
-## ❓ PHẦN 3: KIỂM TRA KIẾN THỨC
+## Section 3: KIỂM TRA KIẾN THỨC
 
 ### 3.1 Câu hỏi self-check
 
@@ -393,7 +393,7 @@ REQUIREMENTS:
 
 ---
 
-## ✅ PHẦN 4: TIÊU CHÍ HOÀN THÀNH
+## Section 4: TIÊU CHÍ HOÀN THÀNH
 
 <!-- PLANNER: Strict, measurable criteria -->
 
@@ -409,7 +409,7 @@ REQUIREMENTS:
 
 ---
 
-## 📝 PHẦN 5: ĐÁNH GIÁ (AI Mentor điền sau khi dạy)
+## Section 5: ĐÁNH GIÁ (AI Mentor điền sau khi dạy)
 
 ### 5.1 Kết quả học tập
 | Block | Điểm (/10) | Ghi chú |
