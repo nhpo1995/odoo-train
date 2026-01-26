@@ -109,7 +109,6 @@
 | **6** | **Relationships (M2O, O2M, M2M)** | **task.task, task.project, task.tag** |
 | 7 | Computed fields | task.task, task.project |
 | 8 | Constraints, Statusbar | task.task |
-| **Review** | **Batch Cleaning** | **task.task (action_clean_draft)** |
 | 9 | Onchange, Wizard, amount, total_revenue | task.state.wizard, task.task, task.project |
 | 10 | Context, Domain, QWeb Report, sudo() | task.task, task.project |
 | 11-13 | Security (ACL, Groups, Rules, Debug, Multi-company) | All |

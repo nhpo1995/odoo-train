@@ -5,7 +5,17 @@ All notable changes to the Agentic Odoo Learning System (`.agent/`) will be docu
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.1] - 2026-01-25
+## [1.0.2] - 2026-01-26
+
+### Added
+- **Agentic Architect**: New core agent (`/architect`) for system design and auditing.
+- **Hybrid Dispatcher**: Architect support for Direct Analysis + Sub-workflows.
+- **Audit Capability**: System health check workflow (`/architect audit`).
+
+### Changed
+- **Odoo Trainer Refactor**: Fixed "Split Brain" issue. Workflow now references Rule file directly.
+- **System Structure**: Adopted "Hybrid Monolith" architecture (Rule -> Workflow).
+- **Legacy Protection**: Added `_archive/` directory support.
 
 ### Changed
 - **Workflow Architecture**: Refactored `workflows/*.md` to be "True Orchestrators" instead of passive proxies.
