@@ -3,7 +3,7 @@ import re
 from datetime import datetime, timedelta
 from typing import Optional
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.tools.float_utils import float_compare
 
@@ -40,9 +40,7 @@ class Task(models.Model):
             ("high", "High"),
         ],
     )
-    
 
-    
     due_date = fields.Datetime(string="Due Date", help="Task deadline")
     hours_estimated = fields.Float(string="Estimated Hours", digits=(6, 2))
     hours_spent = fields.Float(string="Hour Spent", digits=(6, 2))
@@ -94,17 +92,17 @@ class Task(models.Model):
         (
             "name_project_id_unique",
             "UNIQUE(project_id, name)",
-            "Task title must be unique within the same Project!",
+            _("Task title must be unique within the same Project!"),
         ),
         (
             "hours_estimated_check",
             "CHECK(hours_estimated >= 0)",
-            "Hours estimated should greater or equal 0!",
+            _("Hours estimated should be greater or equal to 0!"),
         ),
         (
             "hours_spent_check",
             "CHECK(hours_spent >= 0)",
-            "Hours spent should greater or equal 0",
+            _("Hours spent should be greater or equal to 0!"),
         ),
     ]
 
@@ -116,7 +114,9 @@ class Task(models.Model):
                 and float_compare(rec.hours_spent, rec.hours_estimated, 2) > 0
             ):
                 raise ValidationError(
-                    "Hours spent should not over the hours estimate on a Done task -> fix the time!"
+                    _(
+                        "Hours spent should not exceed the estimated hours for a Done task."
+                    )
                 )
 
     @api.constrains("due_date")
@@ -125,7 +125,7 @@ class Task(models.Model):
         for rec in self:
             if rec.due_date and rec.due_date < now:
                 raise ValidationError(
-                    "Due date should be greater than the present datetime!"
+                    _("Due date should be greater than the present datetime!")
                 )
 
     @api.depends("hours_spent", "hours_estimated", "state")
@@ -203,7 +203,7 @@ class Task(models.Model):
             if rec.state == "done":
                 raise UserError("Cannot delete a done task!")
         return super().unlink()
-    
+
     def copy(self, default=None):
         default = dict(default or {})
         if "name" not in default:
@@ -211,18 +211,23 @@ class Task(models.Model):
             if name:
                 match = re.search(r" \(copy( \d+)?\)$", name)
                 if match:
-                    name = name[:match.start()]
+                    name = name[: match.start()]
                 new_name = f"{name} (copy)"
                 copy_count = 1
-                while self.search_count([
-                    ("name", "=", new_name),
-                    ("project_id", "=", self.project_id.id), #type: ignore
-                ]) > 0:
+                while (
+                    self.search_count(
+                        [
+                            ("name", "=", new_name),
+                            ("project_id", "=", self.project_id.id),  # type: ignore
+                        ]
+                    )
+                    > 0
+                ):
                     new_name = f"{name} (copy {copy_count})"
                     copy_count += 1
                 default["name"] = new_name
         return super().copy(default)
-    
+
     def action_mark_done(self):
         """Mark tasks as done."""
         self.write({"state": "done"})
@@ -239,32 +244,48 @@ class Task(models.Model):
 
     def action_mark_urgent(self):
         """Button: Add urgent tag to task"""
-        urgent_tag = self.env["task.tag"].search([("name", "=", "urgent")], limit=1) # type: ignore
+        urgent_tag = self.env["task.tag"].search([("name", "=", "urgent")], limit=1)  # type: ignore
         if not urgent_tag:
-            urgent_tag = self.env["task.tag"].create({"name": "urgent", "color": 1}) # type: ignore
+            urgent_tag = self.env["task.tag"].create({"name": "urgent", "color": 1})  # type: ignore
         self.write({"tag_ids": [(4, urgent_tag.id, 0)]})
 
     def action_remove_all_tags(self):
         self.write({"tag_ids": [(5, 0, 0)]})
 
     def action_clean_draft(self):
-        #1. Tìm batch (tối ưu query)
+        # 1. Tìm batch (tối ưu query)
         time_limit = fields.Datetime.now() - timedelta(days=7)
-        draft_tasks = self.search([('state', '=', 'draft'),('create_date', '<', time_limit),])
-        #2. Xóa batch (1 lệnh DELETE duy nhất cho N records)
+        draft_tasks = self.search(
+            [
+                ("state", "=", "draft"),
+                ("create_date", "<", time_limit),
+            ]
+        )
+        # 2. Xóa batch (1 lệnh DELETE duy nhất cho N records)
         draft_tasks.unlink()
-        #3. Return action reload (Client Action)
+        # 3. Return action reload (Client Action)
         return {
             "type": "ir.actions.client",
-            "tag" : "display_notification",
+            "tag": "display_notification",
             "params": {
                 "title": "Success",
                 "message": f"Deleted {len(draft_tasks)} tasks successfully!",
                 "type": "success",
                 "sticky": False,
-                "next": {
-                    "type": "ir.actions.client",
-                    "tag": "reload"
-                }
-            }
+                "next": {"type": "ir.actions.client", "tag": "reload"},
+            },
         }
+
+    @api.onchange("project_id")
+    def _onchange_project_id(self):
+        for rec in self:
+            if rec.project_id:
+                if rec.project_id.manager_id:
+                    rec.assigned_user_id = rec.project_id.manager_id
+                else:
+                    return {
+                        "warning": {
+                            "title": _("Warning"),
+                            "message": _("This project has no manager assigned!"),
+                        }
+                    }

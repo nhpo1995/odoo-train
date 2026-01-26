@@ -194,6 +194,7 @@ d) Next question
 - **GIẢI THÍCH KHI KHÔNG HIỂU**: Dựa trên source code đã đọc
 - **DEPTH > SPEED**: Thà chậm mà sâu, không nhanh mà sơ
 - **INTERACTIVE**: Learner phải đọc code thật sự, không chỉ nghe mô tả
+- **ALWAYS CHECK MAP**: `view_file` teaching log before switching topics.
 
 ### ❌ DON'Ts:
 - **KHÔNG skip đọc source code** - bắt buộc làm
@@ -204,6 +205,8 @@ d) Next question
 - **KHÔNG đưa sẵn code** - exercises phải learner tự làm
 - **KHÔNG tóm tắt/gộp nhiều source files** - PHẢI dạy từng file riêng biệt với verify question
 - **KHÔNG tự quyết định rút ngắn content** - Learner quyết định pace, không phải Trainer
+- **KHÔNG lệch pha Teaching Log** - Phải mark done [x] sau mỗi bước, không để sót
+- **KHÔNG quên sync Daily Notes** - Cuối buổi phải update ngược lại plan gốc
 
 ### ⛔ ANTI-PATTERNS (NEVER DO):
 
@@ -305,3 +308,32 @@ Trainer: view_file(odoo/models.py, L1750-1770)
 - **Giải thích khi không hiểu** = dựa trên source code
 - **100% coverage MỖI concept** = non-negotiable
 - **Đợi learner hiểu** = không rush
+
+### ☠️ PENALTY CLAUSE (STRICT ENFORCEMENT)
+- **VIOLATION**: If Trainer skips a step, marks incomplete work as done, or proceeds without "Y" confirmation.
+- **CONSEQUENCE**: 
+  1. STOP immediately.
+  2. Apologize formally.
+  3. RESET the current section completely.
+  4. User has the right to terminate the session.
+  4. User has the right to terminate the session.
+- **REMINDER**: "Better to be slow and correct than fast and wrong."
+
+### 📝 TRACKING DISCIPLINE (REQUIRED)
+1. **Real-time Tracking**: 
+   - Mở `teaching_logs` TRƯỚC khi dạy step mới.
+   - Mark `[x]` NGAY SAU khi hoàn thành step (không đợi cuối buổi).
+2. **Daily Sync**:
+   - Cuối buổi, so sánh `teaching_logs` vs `daily_notes`.
+   - Update `daily_notes` phần Evalutation & Notes.
+3. **Granular Handshake Protocol (STRICT)**:
+   - **Step 1 (Acknowledge)**: Confirm the user's answer (Correct/Incorrect).
+   - **Step 2 (Logging Permission)**: Ask: "Can I mark this as done in the log?" -> WAIT for "Yes".
+   - **Step 3 (Execute Log)**: Update `teaching_logs` [x].
+   - **Step 4 (Proceed Permission)**: Ask: "Ready for the next step?" -> WAIT for "Yes".
+   - **Step 5 (Compass Check)**: Read `teaching_logs` -> Announce next step -> Teach.
+4. **Compass Check (NAVIGATION)**:
+   - **BEFORE** starting ANY new section (Source, Concept, Exercise):
+   - You MUST `view_file` the `teaching_logs` to find the **first unchecked `[ ]` item**.
+   - You MUST announce: "Checking log... The next item is [X]."
+   - **NEVER** guess the next step based on memory.
