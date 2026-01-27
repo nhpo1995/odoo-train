@@ -84,6 +84,7 @@
                                 placeholder="0000.00h"
                                 widget="float_time"
                                 help="Total hours that you think you will spent on this task" />
+                            <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                             <field name="due_date" />
                             <field name="hours_remaining" readonly="1"
                                 attrs="{'invisible': [('id', '=', False)]}" />

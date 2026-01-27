@@ -10,6 +10,7 @@
         "views/task_views.xml",
         "views/project_views.xml",
         "views/tag_views.xml",
+        "wizard/task_wizard_views.xml",
     ],
     "application": True,
     "installable": True,

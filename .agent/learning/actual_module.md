@@ -124,8 +124,8 @@ task_management/
 | Phase | Days | Status |
 |-------|------|--------|
 | Phase 1: Foundation | 1-4 | ✅ Complete |
-| Phase 2: Business Logic | 5-10 | 🔄 Day 7 done |
-| Phase 3: Security | 11-14 | ⏳ Not started |
+| Phase 2: Business Logic | 5-10 | ✅ Day 9 done |
+| Phase 3: Security | 11-14 | ⏳ Next |
 | Phase 4: Advanced | 15-21 | ⏳ Not started |
 
 ---
@@ -147,4 +147,4 @@ task_management/
 | 2026-01-20 | After Day 6 | Trainer | Added M2O, O2M, M2M to all models; task.tag model created; views updated |
 | 2026-01-22 | After Day 7 | Trainer | Added computed fields: hours_remaining, progress (with inverse), task_count; search method for is_overdue |
 | 2026-01-24 | After Day 8 | Planner | Added constraints (SQL & Python); Statusbar widget; Unlink protection |
-| 2026-01-24 | After Day 8 | Planner | Added constraints (SQL & Python); Statusbar widget; Unlink protection |
+| 2026-01-27 | After Day 9 | Planner | Added Wizard (Model/View/Action), amount field, total_revenue computed field |

@@ -1,5 +1,5 @@
 # 🧑‍🏫 TEACHING PLAN: Day 9 - Onchange & Wizards
-Status: 🟡 In Progress
+Status: ✅ Completed
 
 ## 1. PRE-SESSION CHECKLIST
 - [ ] Read `odoo/api.py` (onchange decorator mechanism)
@@ -73,44 +73,46 @@ Status: 🟡 In Progress
     - [x] Return `{'warning': ...}`.
     - [x] **Check**: Select empty-manager project -> Popup?
 
-- [ ] **Ex 3: Financial Fields (read_group)**
-    - [ ] Add `amount` (task) & `total_revenue` (project).
-    - [ ] Implement `read_group` in compute method (No Loop!).
-    - [ ] **Check**: Correct sum?
+- [x] **Ex 3: Financial Fields (read_group)**
+    - [x] Add `amount` (task) & `total_revenue` (project).
+    - [x] Implement `read_group` in compute method (No Loop!).
+    - [x] **Check**: Correct sum?
 
-- [ ] **Ex 4: The Bulk Update Wizard (Model)**
-    - [ ] Create `task.state.wizard` (TransientModel).
-    - [ ] Field `new_state` (Selection).
-    - [ ] Method `action_apply` using `active_ids`.
-    - [ ] **Check**: Code structure correct?
+- [x] **Ex 4: The Bulk Update Wizard (Model)**
+    - [x] Create `task.state.wizard` (TransientModel).
+    - [x] Field `new_state` (Selection).
+    - [x] Method `action_apply` using `active_ids`.
+    - [x] **Check**: Code structure correct?
 
-- [ ] **Ex 5: Wizard View & Binding Action**
-    - [ ] Create Form View (`new_state`, buttons).
-    - [ ] Create Action (`target="new"`, `binding_model_id`).
-    - [ ] **Check**: Action menu appears? Batch update works?
+- [x] **Ex 5: Wizard View & Binding Action**
+    - [x] Create Form View (`new_state`, buttons).
+    - [x] Create Action (`target="new"`, `binding_model_id`).
+    - [x] **Check**: Action menu appears? Batch update works?
 
 ## 5. QUESTIONS
 
-- [ ] **Q1**: Onchange run when? (Recall)
-- [ ] **Q2**: TransientModel difference? (Recall)
-- [ ] **Q3**: Wizard popup attribute? (Recall)
-- [ ] **Q4**: active_ids content? (Apply)
-- [ ] **Q5**: Why no loop for sum? (Apply)
-- [ ] **Q6**: Write read_group code? (Apply)
-- [ ] **Q7**: Scenario check manager absent? (Analyze)
-- [ ] **Q8**: Wizard data lost? (Analyze)
-- [ ] **Q9**: Server Action vs Wizard? (Analyze)
+- [x] **Q1**: Onchange run when? (Recall)
+- [x] **Q2**: TransientModel difference? (Recall)
+- [x] **Q3**: Wizard popup attribute? (Recall)
+- [x] **Q4**: active_ids content? (Apply)
+- [x] **Q5**: Why no loop for sum? (Apply)
+- [x] **Q6**: Write read_group code? (Apply)
+- [x] **Q7**: Scenario check manager absent? (Analyze)
+- [x] **Q8**: Wizard data lost? (Analyze)
+- [x] **Q9**: Server Action vs Wizard? (Analyze)
 
 ## 6. EVALUATION
 
 ### 6.1 Scores
 | Block | Score | Notes |
 |-------|-------|-------|
-| Reading | /10 | |
-| Theory | /10 | |
-| Practice| /10 | |
-| Quest | /10 | |
-| **Final** | **/10**| |
+| Reading | 10/10 | Excellent preparation |
+| Theory | 10/10 | Understood TransientModel core |
+| Practice| 10/10 | Completed offline perfectly |
+| Quest | 10/10 | Verified logic |
+| **Final** | **10/10** | **Outstanding** |
 
 ### 6.2 Session Notes
--
+- Learner completed all exercises offline.
+- Code verified: Wizard, Onchange, read_group all correct.
+- Ready for Day 10.

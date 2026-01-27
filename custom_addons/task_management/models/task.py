@@ -88,6 +88,8 @@ class Task(models.Model):
         inverse="_inverse_progress",
     )
 
+    amount = fields.Float(string="Amount", default=0.0)
+
     _sql_constraints = [
         (
             "name_project_id_unique",
@@ -104,7 +106,20 @@ class Task(models.Model):
             "CHECK(hours_spent >= 0)",
             _("Hours spent should be greater or equal to 0!"),
         ),
+        (
+            "amount_check",
+            "CHECK(amount >= 0)",
+            _("Task's amount should be greater or equal to 0!"),
+        ),
     ]
+
+    @api.constrains("amount")
+    def _check_amount(self):
+        for rec in self:
+            if rec.amount < 0:
+                raise ValidationError(
+                    _("Task's amount should be greater or equal to 0!")
+                )
 
     @api.constrains("hours_spent", "hours_estimated", "state")
     def _check_hours_on_done(self):
@@ -289,3 +304,11 @@ class Task(models.Model):
                             "message": _("This project has no manager assigned!"),
                         }
                     }
+
+    @api.model
+    def find_all_urgent_tasks(self):
+        tag_urgent = self.env["task.tag"].search([("name", "=", "Urgent")], limit=1)
+        if not tag_urgent:
+            return self.browse()
+        tasks = self.sudo().search([("tag_ids", "in", tag_urgent.ids)])
+        return tasks

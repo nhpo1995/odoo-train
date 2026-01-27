@@ -244,6 +244,9 @@ Module progress:
 
 **B. Guide User Reading:**
 ```
+   - Mở `teaching_logs` TRƯỚC khi dạy step mới.
+   - **Check kỹ trạng thái [x] / [ ] trong file log.**
+   - Mark `[x]` NGAY SAU KHI hoàn thành step (không đợi cuối buổi).
 "Bây giờ chúng ta sẽ đọc file `[file path]`"
 "File này chứa [mục đích]"
 "Mục tiêu: Sau khi đọc bạn sẽ hiểu [điều gì]"
@@ -270,11 +273,15 @@ Nếu KHÔNG hiểu:
 → Giải thích lại dựa trên source code
 
 Nếu HIỂU:
+→   - ⛔ **KHÔNG được chuyển sang source tiếp theo nếu chưa có verify question + answer**
 → Confirm và chuyển source tiếp theo
 ```
 
 **E. Complete & Move Next:**
 ```
+d.5) **Sync Teaching Log (MANDATORY)**:
+   - Dùng `view_file` đọc lại teaching log để check trạng thái hiện tại
+   - Mark `[x]` vào item vừa hoàn thành trong file log
 "OK, đã xong file [A]. Tiếp theo là file [B]."
 → Lặp lại A-D cho source tiếp theo
 ```

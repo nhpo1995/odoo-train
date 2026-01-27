@@ -65,12 +65,12 @@
 | name | Char | required |
 | color | Integer | default=0 |
 
-### task.state.wizard (Day 9)
+### task.wizard (Day 9)
 
 | Field | Type | Params |
 |-------|------|--------|
-| new_state | Selection | required |
-| action_apply() | method | bulk update |
+| new_state | Selection | required, default=draft |
+| action_apply() | method | bulk update with notification |
 
 ---
 

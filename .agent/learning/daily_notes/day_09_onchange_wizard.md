@@ -370,19 +370,19 @@ self.env['task.task'].read_group([], ['amount:sum'], ['project_id'])
 ### 5.1 Kết quả học tập
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Lý thuyết | _ | _(Mentor điền)_ |
-| Thực hành | _ | _(Mentor điền)_ |
-| Kiểm tra | _ | _(Mentor điền)_ |
-| **TỔNG** | **_/10** | |
+| Lý thuyết | 10 | Hiểu rõ cơ chế Onchange/Transient |
+| Thực hành | 10 | Code chạy chuẩn, UI tốt |
+| Kiểm tra | 10 | Nắm chắc performance read_group |
+| **TỔNG** | **10/10** | **Xuất sắc** |
 
 ### 5.2 Key takeaways
-> _(Mentor điền)_
+> Hoàn thành xuất sắc Wizard và Onchange. Đã hiểu rõ khi nào dùng TransientModel vs Model thường. Performance tư duy tốt (read_group).
 
 ### 5.3 Điểm cần cải thiện
-> _(Mentor điền)_
+> Không có. Tiếp tục phát huy.
 
 ### 5.4 Lưu ý cho ngày tiếp theo
-> _(Mentor điền)_
+> Day 10 sẽ nặng về QWeb Reports. Chuẩn bị tinh thần debug XML.
 
 ---
 

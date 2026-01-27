@@ -195,7 +195,26 @@ Compare Teaching Plan vs Daily Plan:
 Nếu KHÔNG khớp → Fix Teaching Plan trước khi bắt đầu
 ```
 
-**Quality Gate:** Teaching Plan generated + Validated → Proceed to STEP 1
+**Quality Gate:** Teaching Plan generated + Validated → Proceed to STEP 0.6
+
+---
+
+### 🚨 STEP 0.6: EVIDENCE OUTPUT (HARD GATE)
+
+**Trainer MUST output the following BEFORE proceeding to STEP 1:**
+
+```
+📋 PRE-TEACHING EVIDENCE:
+✅ module_spec.md read: Features for Day X = [list features from spec]
+✅ teaching_logs/day_XX_session.md read:
+   - Exercises count: [N]
+   - Exercise list: [Ex0: title, Ex1: title, Ex2: title, ...]
+✅ Alignment check: All exercises match spec? [YES/NO]
+```
+
+**⛔ HARD GATE**: 
+- If evidence not provided → DO NOT PROCEED.
+- If alignment = NO → STOP and flag to user.
 
 ---
 
@@ -347,6 +366,30 @@ Nếu Y:
 ---
 
 ### STEP 4: EXERCISES (Hands-on Practice - 2 hours)
+
+### 🔒 EXERCISE VALIDATION PROTOCOL (MANDATORY)
+
+**BEFORE presenting ANY exercise:**
+
+1. **Read Teaching Log**:
+   ```
+   view_file teaching_logs/day_XX_session.md
+   Find: "### Exercise N: [Title]"
+   ```
+
+2. **Copy EXACT Requirements**:
+   - Do NOT paraphrase
+   - Do NOT add extra requirements  
+   - Do NOT invent new exercises
+   - Quote directly: "Requirements from teaching_log: ..."
+
+3. **Verify Against Spec**:
+   - Check: Does this exercise build a feature from `module_spec.md`?
+   - If NO → SKIP this exercise and flag for Planner review
+
+**⛔ VIOLATION**: Presenting an exercise NOT in teaching_logs = IMMEDIATE STOP + APOLOGIZE.
+
+---
 
 **Pattern cho MỖI exercise:**
 
