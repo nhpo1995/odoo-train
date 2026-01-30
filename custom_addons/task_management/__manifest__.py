@@ -4,7 +4,7 @@
     "category": "Tools",
     "summary": "A task management module",
     "author": "internal",
-    "depends": ["base"],
+    "depends": ["base", "mail"],
     "data": [
         "security/security.xml",
         "security/ir.model.access.csv",

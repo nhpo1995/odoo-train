@@ -1203,175 +1203,49 @@ Master 3 loại inheritance trong Odoo + **Advanced Xpath patterns**.
 
 ---
 
-## Day 17: Override Methods + Fix Bugs + Calendar/Assets
+## Day 17: View Masterclass - Advanced Reporting & Dashboards
 
 ### 🎯 Mục đích chủ đạo
-Override method đúng cách, fix bugs phổ biến + **Calendar view và frontend customization**.
+Biến module thành hệ thống quản lý chuyên nghiệp với các View báo cáo và Dashboard. (Đáp ứng yêu cầu "tạo view nhiều" cho báo cáo).
 
-### 📚 Đề mục cần học
-- [ ] Override method pattern (super())
-- [ ] **super() positioning** - Gọi trước hay sau logic?
-- [ ] Đọc traceback và phân tích
-- [ ] Debug step-by-step với logging
-- [ ] **Common ORM bugs:**
-  - [ ] `browse([])` trả về empty recordset
-  - [ ] `mapped()` trên empty recordset
-  - [ ] Missing `ensure_one()`
-  - [ ] `vals` vs `vals_list` confusion
-  - [ ] Recursive call không có `sudo()`
-- [ ] **Debug tools**: `_logger.debug()`, `pdb`, traceback
-- [ ] **Calendar view** - date_start, date_stop, color
-- [ ] **Web assets bundles** - `web.assets_backend`, debug=assets
-- [ ] **CSS/JS basics** - Static files, manifest registration
+### 📚 Đề mục học
+- [ ] **Graph View**: Bar, Line, Pie chart (Phân tích hours, tasks)
+- [ ] **Pivot View**: Excel-like reporting (Đa chiều)
+- [ ] **Calendar View**: Quản lý lịch tasks theo deadline
+- [ ] **Search View Advanced**: Custom Filters, Group By mặc định
+- [ ] **Smart Buttons**: Nút thống kê trên Form Project
+- [ ] **Dashboard Action**: Ghép nhiều view vào 1 màn hình
 
-### 📂 Source code cần đọc
-| File | Focus | Dòng gợi ý |
-|------|-------|------------|
-| `odoo/addons/sale/models/sale_order.py` | Override create/write | Tìm `def create` |
-| `odoo/models.py` | super() pattern | Tìm `super()` |
-| `odoo/models.py` | ensure_one | Tìm `def ensure_one` |
-| `odoo/addons/web/__manifest__.py` | Assets bundles | `web.assets_backend` |
-| `odoo/addons/calendar/views/` | Calendar view examples | Toàn bộ folder |
-
-### ✅ Tiêu chí đạt
-- [ ] Override method đúng cách với super()
-- [ ] **Fix 5 pre-made bugs:**
-  - [ ] Bug 1: `browse(id)` thay vì `browse([id])`
-  - [ ] Bug 2: Missing `return super().create(vals)`
-  - [ ] Bug 3: Modify `vals` sau khi super()
-  - [ ] Bug 4: `ensure_one()` missing trên expected single record
-  - [ ] Bug 5: Infinite loop do thiếu `sudo()` trong override
-- [ ] Đọc được traceback và tìm root cause
-- [ ] **Calendar view cho task.task:**
-  - [ ] Tạo `<calendar>` view với `date_start="due_date"`
-  - [ ] Add color field mapping
-  - [ ] Add quick create
-- [ ] **Frontend customization:**
-  - [ ] Thêm `static/src/css/task_kanban.css`
-  - [ ] Thêm `static/src/js/task_debug.js`
-  - [ ] Register assets trong `__manifest__.py` → `web.assets_backend`
-  - [ ] Add class `o_task_overdue` trong Kanban template
-  - [ ] Verify bằng `?debug=assets` + console log từ JS
-
-### 📦 Output artifacts
-- Patch notes cho từng bug fix
-- Calendar view XML
-- Assets files + manifest block
-- Checklist debug steps (traceback → root cause → fix)
-
-### 📝 Kết quả ngày
-| Block | Điểm (/10) | Ghi chú |
-|-------|------------|---------|
-| Đọc source (2h) | _ | |
-| Viết code (2h) | _ | |
-| Shell/Debug (2h) | _ | |
-| Tổng kết (1h) | _ | |
-| **TỔNG NGÀY 17** | **_/10** | |
-
-### ❓ Câu hỏi kiểm tra
-1. **super()**: Khi nào gọi super() trước vs sau logic riêng?
-2. **Traceback**: Dòng nào trong traceback cho biết root cause?
-3. **browse()**: `browse(5)` vs `browse([5])` khác nhau thế nào?
-4. **ensure_one()**: Khi nào cần, khi nào không?
-5. **vals**: Tại sao modify vals SAU super() có thể gây bug?
-6. **Calendar**: date_start vs date_stop trong calendar view?
-7. **Assets**: Làm sao debug CSS/JS với `?debug=assets`?
-
-### 🔗 Liên kết kiến thức
-- **Prerequisites**: Day 3 (CRUD), Day 16 (Inheritance)
-- **Builds on**: _inherit để override, super() pattern
-- **Prepares for**: Day 18 (Controllers cũng cần error handling)
-- **Module state sau Day 17**: Debug skills hoàn chỉnh, Calendar view, frontend assets, Phase 4 COMPLETE
-
-### 📌 Ghi chú AI
-> _(AI sẽ điền sau khi hoàn thành)_
-
-### ⚠️ Lưu ý cho Day 18
-> Phase 5 CONTROLLER bắt đầu:
-> - HTTP Controllers tạo API
-> - Error handling tương tự Day 17
-> - auth patterns để kết nối với security từ Phase 3
+### 📂 Bài tập trọng tâm
+1. Tạo Graph View: Thống kê Số giờ làm theo User/Dự án.
+2. Tạo Pivot View: Phân tích hiệu suất theo Tháng/Team.
+3. Calendar View: Kéo thả Task để đổi deadline.
+4. Project Dashboard: Nhìn tổng quan tất cả tiến độ.
 
 ---
 
-# 📅 PHASE 5: CONTROLLER (Day 18-19)
-
-### 🛠️ Debug checklist (Phase 5)
-- [ ] Log request params + headers; validate auth context
-- [ ] Test endpoints with curl/Postman for 200/403/404 paths
-- [ ] Inspect response payloads and error stacks
-
----
-
-## Day 18: HTTP Controllers
+## Day 18: Frontend Customization (CSS/JS Assets)
 
 ### 🎯 Mục đích chủ đạo
-Tạo API endpoints trong Odoo.
+Can thiệp sâu vào giao diện Odoo bằng code Frontend (CSS/SCSS/JS). "Make it beautiful & interactive".
 
-### 📚 Đề mục cần học
-- [ ] Controller class + @http.route decorator
-- [ ] **type='jsonrpc'** vs **type='http'** - Response formats
-- [ ] **auth options**: user, public, none, bearer
-- [ ] Request/Response handling
-- [ ] **CORS** - Access-Control-Allow-Origin
-- [ ] **Error handling** - try/except trong controllers
-- [ ] **csrf** - Khi nào cần csrf='False'
+### 📚 Đề mục học
+- [ ] **Assets Management**: `__manifest__.py` vs `assets` bundle.
+- [ ] **SCSS/CSS Injection**: Tùy biến màu sắc Kanban, Form header.
+- [ ] **JS Widget cơ bản**: Tạo Field hiển thị màu sắc động (Color Picker).
+- [ ] **Client Action**: Tạo trang Landing Page riêng cho module (nếu kịp).
+- [ ] **QWeb Reports (PDF)**: (Optional) Nếu job yêu cầu in ấn nhiều (dùng xpath).
 
-### 📂 Source code cần đọc
-| File | Focus | Dòng gợi ý |
-|------|-------|------------|
-| `odoo/http.py` | Controller class | Tìm `class Controller` |
-| `odoo/http.py` | route decorator | Tìm `def route` |
-| `odoo/http.py` | Response class | Tìm `class Response` |
-
-### ✅ Tiêu chí đạt
-- [ ] Tạo được JSON controller trả về danh sách tasks
-- [ ] **REST-like API:**
-  - [ ] GET `/api/tasks` - List all tasks
-  - [ ] GET `/api/tasks/<int:id>` - Get single task
-  - [ ] Trả về JSON response
-- [ ] Test với auth='user' và auth='public'
-- [ ] **Error handling:**
-  - [ ] 404: Task not found
-  - [ ] 403: Access denied
-  - [ ] 500: Internal error
-- [ ] Xử lý được request parameters
-
-### 📦 Output artifacts
-- `controllers/main.py` với routes + error handling
-- Sample curl/Postman requests + expected responses
-
-### 📝 Kết quả ngày
-| Block | Điểm (/10) | Ghi chú |
-|-------|------------|---------|
-| Đọc source (2h) | _ | |
-| Viết code (2h) | _ | |
-| Shell/Debug (2h) | _ | |
-| Tổng kết (1h) | _ | |
-| **TỔNG NGÀY 18** | **_/10** | |
-
-### ❓ Câu hỏi kiểm tra
-1. **Route**: `type='jsonrpc'` vs `type='http'` khác nhau thế nào?
-2. **Auth**: auth='none' dùng khi nào? Có rủi ro gì?
-3. **bearer**: auth='bearer' hoạt động như thế nào với API key?
-4. **CORS**: Làm sao enable CORS cho external app?
-5. **Error**: Trả về 404 error trong JSON controller?
-6. **Security**: Controller có chịu ACL và Record Rules không?
+### 📂 Bài tập trọng tâm
+1. CSS: Đổi màu Kanban Card dựa trên Priority (Gradient background).
+2. JS: Tạo widget "Progress Ring" tròn thay vì thanh ngang.
+3. Assets: Load file CSS/JS đúng cách vào Backend.
+4. QWeb Xpath: Sửa report template mặc định.
 
 ### 🔗 Liên kết kiến thức
-- **Prerequisites**: Day 17 (Error handling), Phase 3 (Security)
-- **Builds on**: auth patterns kết nối với groups từ Day 12
-- **Prepares for**: Day 19 (Scheduled actions và external API)
-- **Module state sau Day 18**: REST-like API cho task_management
-
-### 📌 Ghi chú AI
-> _(AI sẽ điền sau khi hoàn thành)_
-
-### ⚠️ Lưu ý cho Day 19
-> Day 19 Scheduled Actions + External API:
-> - ir.cron cho background jobs
-> - Gọi external API từ Odoo
-> - Kết hợp với controller từ Day 18
+- **Prerequisites**: Day 17 (Advanced Views)
+- **Builds on**: XML Views, frontend assets
+- **Prepares for**: Day 20 (Final Polish)
 
 ---
 

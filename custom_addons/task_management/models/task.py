@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 class Task(models.Model):
     _name = "task.task"
     _description = "Task"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Task Name", required=True, copy=False)
     description = fields.Text(string="Task Description", required=True)
@@ -87,6 +88,12 @@ class Task(models.Model):
         compute="_compute_progress",
         inverse="_inverse_progress",
     )
+
+    partner_id = fields.Many2one(
+        comodel_name="res.partner", required=False, ondelete="cascade"
+    )
+
+    completion_date = fields.Datetime(readonly=True)
 
     amount = fields.Float(string="Amount", default=0.0)
 
@@ -193,17 +200,18 @@ class Task(models.Model):
         """Override"""
         for vals in vals_list:
             _logger.info(f"Create task with vals: {vals}")
+            name = vals.get("name", "")
+            if name and not name.strip().startswith("TASK"):
+                vals["name"] = f"TASK-{name.strip()}"
         records = super().create(vals_list)
         _logger.info(f"Created task with ids: {records.ids}")
         return records
 
     def write(self, vals):
         """Override"""
-        if "state" in vals:
-            for record in self:
-                _logger.info(
-                    f"Task {record.id}: state changing from {record.state} to {vals['state']}"  # type: ignore
-                )
+        state = vals.get("state")
+        if state and state == "done":
+            vals["completion_date"] = fields.Datetime.now()
 
         for record in self:
             is_done = vals.get("state") == "done" or record.state == "done"
@@ -220,6 +228,7 @@ class Task(models.Model):
         return super().unlink()
 
     def copy(self, default=None):
+        """Override"""
         default = dict(default or {})
         if "name" not in default:
             name = self.name
@@ -241,6 +250,9 @@ class Task(models.Model):
                     new_name = f"{name} (copy {copy_count})"
                     copy_count += 1
                 default["name"] = new_name
+        default["state"] = "draft"
+        default["due_date"] = None
+        default["completion_date"] = None
         return super().copy(default)
 
     def action_mark_done(self):
@@ -312,3 +324,11 @@ class Task(models.Model):
             return self.browse()
         tasks = self.sudo().search([("tag_ids", "in", tag_urgent.ids)])
         return tasks
+
+    def name_get(self):
+        """override"""
+        result = []
+        for rec in self:
+            item = f"[{rec.id}] {rec.name} ({rec.state})"
+            result.append((rec.id, item))
+        return result
