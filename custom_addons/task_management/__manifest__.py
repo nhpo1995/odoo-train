@@ -6,6 +6,7 @@
     "author": "internal",
     "depends": ["base"],
     "data": [
+        "security/security.xml",
         "security/ir.model.access.csv",
         "views/task_views.xml",
         "views/project_views.xml",
