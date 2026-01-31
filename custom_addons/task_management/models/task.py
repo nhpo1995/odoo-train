@@ -307,7 +307,7 @@ class Task(models.Model):
     def _onchange_project_id(self):
         for rec in self:
             if rec.project_id:
-                if rec.project_id.manager_id:
+                if rec.project_id.manager_id: #type: ignore
                     rec.assigned_user_id = rec.project_id.manager_id
                 else:
                     return {
@@ -319,7 +319,7 @@ class Task(models.Model):
 
     @api.model
     def find_all_urgent_tasks(self):
-        tag_urgent = self.env["task.tag"].search([("name", "=", "Urgent")], limit=1)
+        tag_urgent = self.env["task.tag"].search([("name", "=", "Urgent")], limit=1) #type: ignore
         if not tag_urgent:
             return self.browse()
         tasks = self.sudo().search([("tag_ids", "in", tag_urgent.ids)])

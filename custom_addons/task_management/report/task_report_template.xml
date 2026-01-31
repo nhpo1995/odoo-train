@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_project_tasks" name="Project Tasks Report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2> Project:<span t-field="o.name" />
+                        </h2>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Task Name</th>
+                                    <th>Assignee</th>
+                                    <th>Due Date</th>
+                                    <th>State</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="['draft', 'in_progress', 'done']" t-as="state_value">
+                                    <tr style="background-color: #6c757d; color: white;">
+                                        <td colspan="4">
+                                            <strong t-esc="state_value" />
+                                        </td>
+                                    </tr>
+                                    <t
+                                        t-foreach="o.task_ids.filtered(lambda t: t.state == state_value)"
+                                        t-as="task">
+                                        <tr>
+                                            <td>
+                                                <span t-field="task.name" />
+                                            </td>
+                                            <td>
+                                                <span t-field="task.assigned_user_id" />
+                                            </td>
+                                            <td>
+                                                <span t-field="task.due_date" />
+                                            </td>
+                                            <td>
+                                                <span t-field="task.state" />
+                                            </td>
+                                        </tr>
+
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+
+    </template>
+
+</odoo>

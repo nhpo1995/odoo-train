@@ -105,16 +105,19 @@ task_management/
 ├── __manifest__.py ✅
 ├── models/
 │   ├── __init__.py ✅
-│   ├── task.py ✅ (~120 lines)
-│   ├── project.py ✅ (~20 lines)
+│   ├── task.py ✅ (~150 lines)
+│   ├── project.py ✅ (~25 lines)
 │   └── tag.py ✅ (~25 lines)
 ├── views/
 │   ├── task_views.xml ✅ (~220 lines)
 │   ├── project_views.xml ✅
 │   └── tag_views.xml ✅
+├── report/
+│   ├── task_report.xml ✅ (ir.actions.report)
+│   └── task_report_template.xml ✅ (QWeb template with grouping)
 ├── security/
 │   └── ir.model.access.csv ✅ (includes task.tag)
-└── (other dirs not created yet)
+└── (wizard/, data/ not created yet)
 ```
 
 ---
@@ -124,7 +127,7 @@ task_management/
 | Phase | Days | Status |
 |-------|------|--------|
 | Phase 1: Foundation | 1-4 | ✅ Complete |
-| Phase 2: Business Logic | 5-10 | ✅ Day 9 done |
+| Phase 2: Business Logic | 5-10 | ✅ Day 10 done |
 | Phase 3: Security | 11-14 | ⏳ Next |
 | Phase 4: Advanced | 15-21 | ⏳ Not started |
 
@@ -148,3 +151,4 @@ task_management/
 | 2026-01-22 | After Day 7 | Trainer | Added computed fields: hours_remaining, progress (with inverse), task_count; search method for is_overdue |
 | 2026-01-24 | After Day 8 | Planner | Added constraints (SQL & Python); Statusbar widget; Unlink protection |
 | 2026-01-27 | After Day 9 | Planner | Added Wizard (Model/View/Action), amount field, total_revenue computed field |
+| 2026-01-27 | After Day 10 | Trainer | Added report/ folder with task_report.xml (ir.actions.report) and task_report_template.xml (QWeb with grouping logic); total_hours field on project model; sudo search method |

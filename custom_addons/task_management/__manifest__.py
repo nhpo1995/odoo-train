@@ -12,6 +12,8 @@
         "views/project_views.xml",
         "views/tag_views.xml",
         "wizard/task_wizard_views.xml",
+        "report/task_report.xml",
+        "report/task_report_template.xml",
     ],
     "application": True,
     "installable": True,

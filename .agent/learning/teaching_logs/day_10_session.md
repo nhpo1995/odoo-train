@@ -1,8 +1,8 @@
 # 🧑‍🏫 Teaching Log [Day 10]: Context, Domain & Reports
 
-> **Status**: 🟡 In Progress
+> **Status**: ✅ Completed
 > **Date**: 2026-01-27
-> **Score**: _/10
+> **Score**: 8/10
 
 ---
 
@@ -65,41 +65,41 @@
 - [x] Explain risks.
 
 ### Exercise 2: Advanced Domain Search
-- [ ] Present: Logic `(Overdue & High) | (Draft & No Deadline)`.
-- [ ] Learner coding (Polish Notation)...
-- [ ] Check Result: `['|', '&', ..., '&', ...]`
-- [ ] Verify shell execution.
+- [x] Present: Logic `(Overdue & High) | (Draft & No Deadline)`.
+- [x] Learner coding (Polish Notation)...
+- [x] Check Result: `['|', '&', ..., '&', ...]`
+- [x] Verify shell execution.
 
 ### Exercise 3: Project Report (XML Action)
-- [ ] Present: Create `ir.actions.report` for `task.project`.
-- [ ] Learner coding (`task_report.xml`)...
-- [ ] Check Result: Action created? Appears in Print menu?
+- [x] Present: Create `ir.actions.report` for `task.project`.
+- [x] Learner coding (`task_report.xml`)...
+- [x] Check Result: Action created? Appears in Print menu?
 
 ### Exercise 4: Report Template (QWeb Structure)
-- [ ] Present: Create `task_report_template.xml` with `external_layout`.
-- [ ] Learner coding...
-- [ ] Check Result: PDF prints with Header/Footer? Data correct?
+- [x] Present: Create `task_report_template.xml` with `external_layout`.
+- [x] Learner coding...
+- [x] Check Result: PDF prints with Header/Footer? Data correct?
 
 ### Exercise 5: Grouping in Report (Logic)
-- [ ] Present: Group tasks by State in PDF.
-- [ ] Learner coding (Python or QWeb logic)...
-- [ ] Check Result: Tasks grouped? Totals correct?
-- [ ] Verify: Use `t-set` for totals.
+- [x] Present: Group tasks by State in PDF.
+- [x] Learner coding (Python or QWeb logic)...
+- [x] Check Result: Tasks grouped? Totals correct?
+- [x] Verify: Use `t-set` for totals.
 
 ---
 
 ## 4. ❓ Questions (Understanding Check)
 
-- [ ] Q1: `self.env.context` mutable/immutable?
-- [ ] Q2: `sudo()` modifies `env.user`?
-- [ ] Q3: Logic of `['|', A, B, C]`?
-- [ ] Q4: Why `t-field` over `t-esc`?
-- [ ] Q5: Domain `(US or EU) AND Sales > 1000`.
-- [ ] Q6: Pass flag to `create()`?
-- [ ] Q7: Hide lines in report (Design)?
-- [ ] Q8: `sudo()` and field access rights?
-- [ ] Q9: Performance of QWeb loops vs Python?
-- [ ] Q10: Debug "Field does not exist" in report?
+- [x] Q1: `self.env.context` mutable/immutable? ✅ Correct
+- [x] Q2: `sudo()` modifies `env.user`? ✅ Correct
+- [x] Q3: Logic of `['|', A, B, C]`? ✅ Correct
+- [x] Q4: Why `t-field` over `t-esc`? ✅ Correct
+- [x] Q5: Domain `(US or EU) AND Sales > 1000`. ⚠️ Logic đúng, format sai
+- [x] Q6: Pass flag to `create()`? ✅ Correct
+- [x] Q7: Hide lines in report (Design)? ✅ Correct
+- [x] Q8: `sudo()` and field access rights? ✅ Correct
+- [x] Q9: Performance of QWeb loops vs Python? ⚠️ Đúng một phần
+- [x] Q10: Debug "Field does not exist" in report? ❌ Sai
 
 ---
 
@@ -107,10 +107,21 @@
 
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Lý thuyết | _ | |
-| Thực hành | _ | |
-| Kiểm tra | _ | |
-| **TỔNG** | **_/10** | |
+| Lý thuyết | 9 | Hiểu tốt concepts, giải thích được context-based |
+| Thực hành | 8 | Hoàn thành 6/6 exercises, tự viết code |
+| Kiểm tra | 7.5 | 7.5/10 câu đúng hoàn toàn |
+| **TỔNG** | **8/10** | |
 
-### Notes
-> ...
+### Key Takeaways
+> - Hiểu rõ `env.context` immutable và cách dùng `with_context()`
+> - Thành thạo Domain Polish Notation
+> - Tạo được QWeb Report hoàn chỉnh với grouping
+> - Hiểu `sudo()` và security implications
+
+### Điểm cần cải thiện
+> - Domain syntax (format list vs tuple)
+> - Hiểu sâu hơn về ACL/security trong reports
+
+### Lưu ý cho Day 11
+> - Day 11 bắt đầu Security: Groups, ACL, Record Rules
+> - Sẽ apply vào task_management module

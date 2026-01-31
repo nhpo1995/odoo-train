@@ -259,16 +259,22 @@ By end of day, learner will be able to:
 ### 5.1 Kết quả học tập
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Lý thuyết | _ | _(Mentor điền)_ |
-| Thực hành | _ | _(Mentor điền)_ |
-| Kiểm tra | _ | _(Mentor điền)_ |
-| **TỔNG** | **_/10** | |
+| Lý thuyết | 9 | Hiểu tốt concepts về context, domain, QWeb |
+| Thực hành | 8 | Hoàn thành 6/6 exercises, tự viết code |
+| Kiểm tra | 7.5 | 7.5/10 câu đúng hoàn toàn |
+| **TỔNG** | **8/10** | Kết quả tốt! |
 
 ### 5.2 Key takeaways
-> _(Mentor điền)_
+> - Hiểu rõ `env.context` immutable và cách dùng `with_context()`
+> - Thành thạo Domain Polish Notation (prefix operators)
+> - Tạo được QWeb Report hoàn chỉnh với grouping logic
+> - Hiểu `sudo()` và security implications
 
 ### 5.3 Điểm cần cải thiện
-> _(Mentor điền)_
+> - Domain syntax: format list operators vs tuple terms
+> - Hiểu sâu hơn về ACL/security trong reports (Q10)
 
 ### 5.4 Lưu ý cho ngày tiếp theo
-> _(Mentor điền)_
+> - Day 11 bắt đầu Security: Groups, ACL, Record Rules
+> - Sẽ apply security vào task_management module
+> - Cần ôn lại phần ACL field-level access

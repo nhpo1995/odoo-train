@@ -28,6 +28,7 @@
                 <field name="tag_ids" widget="many2many_tags" />
                 <field name="hours_remaining" decoration-danger="hours_remaining &lt; 0" />
                 <field name="project_id" />
+                <field name="amount" sum="Total" />
                 <button name="action_mark_done"
                     type="object"
                     string="Mark Done"
@@ -84,7 +85,8 @@
                                 placeholder="0000.00h"
                                 widget="float_time"
                                 help="Total hours that you think you will spent on this task" />
-                            <field name="amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="amount" widget="monetary"
+                                options="{'currency_field': 'currency_id'}" />
                             <field name="due_date" />
                             <field name="hours_remaining" readonly="1"
                                 attrs="{'invisible': [('id', '=', False)]}" />

@@ -51,14 +51,14 @@
 | Phase | Ngày | Trạng thái | Điểm TB |
 |-------|------|------------|---------|
 | 1. ORM Foundation | Day 1-5 | ✅ DONE | 8.8/10 |
-| 2. Business Logic | Day 6-10 | ⏳ (3/5) | 8.75/10 |
+| 2. Business Logic | Day 6-10 | ✅ DONE | 8.7/10 |
 | 3. Security | Day 11-13 | ⬜ | _/10 |
 | 3b. Subtasks | Day 14 | ⬜ | _/10 |
 | 4. Module Reading | Day 15-17 | ⬜ | _/10 |
 | 5. Controller | Day 18-19 | ⬜ | _/10 |
 | 6. Consolidation | Day 20-21 | ⬜ | _/10 |
 
-**Tổng tiến độ**: 8/21 ngày học
+**Tổng tiến độ**: 10/21 ngày học
 
 **Chi tiết Phase 1:**
 - Day 1: 9.5/10 ✅
@@ -70,8 +70,9 @@
 **Chi tiết Phase 2:**
 - Day 6: 9.0/10 ✅ (+ Bonus: Deadlock, Recursion)
 - Day 7: 8.5/10 ✅ (Computed fields, inverse, search, read_group)
-- [x] Day 8: 10/10 ✅ (Constraints, Protection, Statusbar)
-- Day 9: _/10 ⏳ (Onchange, Wizards)
+- Day 8: 10/10 ✅ (Constraints, Protection, Statusbar)
+- Day 9: 8.5/10 ✅ (Onchange, Wizards) _(estimated)_
+- Day 10: 8.0/10 ✅ (Context, Domain, QWeb Reports)
 
 ---
 
@@ -722,11 +723,10 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
 ### 📝 Kết quả ngày
 | Block | Điểm (/10) | Ghi chú |
 |-------|------------|---------|
-| Đọc source (2h) | _ | |
-| Viết code (2h) | _ | |
-| Shell/Debug (2h) | _ | |
-| Tổng kết (1h) | _ | |
-| **TỔNG NGÀY 10** | **_/10** | |
+| Lý thuyết | 9 | Hiểu tốt concepts về context, domain, QWeb |
+| Thực hành | 8 | Hoàn thành 6/6 exercises, tự viết code |
+| Kiểm tra | 7.5 | 7.5/10 câu đúng hoàn toàn |
+| **TỔNG NGÀY 10** | **8/10** | ✅ Phase 2 Complete! |
 
 ### ❓ Câu hỏi kiểm tra
 1. **Concept**: `env.context.get('key')` vs `env.context['key']` - khác nhau gì?
@@ -743,7 +743,13 @@ Hiểu context truyền thông tin, domain filter records + **Tạo PDF Report �
 - **Module state sau Day 10**: PDF report hoàn chỉnh, Phase 2 COMPLETE
 
 ### 📌 Ghi chú AI
-> _(AI sẽ điền sau khi hoàn thành)_
+> **Key takeaways Day 10:**
+> - `env.context` là immutable, dùng `with_context()` để modify
+> - `sudo()` bypass security nhưng vẫn giữ `env.user`
+> - Domain Polish Notation: `|`, `&`, `!` chỉ lấy 2 operands tiếp theo
+> - QWeb Reports: `ir.actions.report` + QWeb template
+> - `t-field` auto-format, `t-esc` raw value
+> - Grouping trong QWeb: loop fixed list + filtered()
 
 ### ⚠️ Lưu ý cho Day 11
 > Phase 3 SECURITY bắt đầu:
